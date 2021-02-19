@@ -30,5 +30,7 @@
     "build:prod": "cross-env NODE_ENV=production node_modules/.bin/webpack -p",
     "build:dev": "cross-env NODE_ENV=development node_modules/.bin/webpack",
     "test": "echo \"Error: no test specified\" && exit 1"
-  }
+  },
+  "author": "elkin",
+  "license": "ISC"
 }
