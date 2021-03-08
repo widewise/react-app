@@ -13,7 +13,7 @@ const MovieCardDetailsFirstRow = styled.div`
     margin-bottom: 10px;
 `;
 
-const NameLabel = styled.h6`
+const TitleLabel = styled.h6`
     font-size: 15px;
     margin: 0;
     flex: 1;
@@ -35,8 +35,8 @@ export default function MovieCardDetails({ movie }) {
   return (
     <MovieDetailsPanel>
       <MovieCardDetailsFirstRow>
-        <NameLabel>{movie.name}</NameLabel>
-        <ReleaseDateLabel>{movie.releaseDate}</ReleaseDateLabel>
+        <TitleLabel>{movie.title}</TitleLabel>
+        <ReleaseDateLabel>{new Date(movie.releaseDate).getFullYear()}</ReleaseDateLabel>
       </MovieCardDetailsFirstRow>
       <div>{movie.genres.join(', ')}</div>
     </MovieDetailsPanel>

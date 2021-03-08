@@ -16,7 +16,7 @@ const MovieCardPanel = styled.li`
 export default function MovieCard({ movie }) {
   return (
     <MovieCardPanel>
-      <MoviePoster />
+      <MoviePoster movie={movie} />
       <MovieCardDetails movie={movie} />
     </MovieCardPanel>
   );

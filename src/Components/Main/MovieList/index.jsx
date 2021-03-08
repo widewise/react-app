@@ -24,5 +24,5 @@ export default function MovieList({ movies }) {
 }
 
 MovieList.propTypes = {
-  movies: PropTypes.arrayOf(Movie).isRequired,
+  movies: PropTypes.arrayOf(PropTypes.instanceOf(Movie)).isRequired,
 };

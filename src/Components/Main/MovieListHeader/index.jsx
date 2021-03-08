@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import MovieFilter from './MovieFilter';
+import { MovieFilter } from './MovieFilter';
 import MovieSort from './MovieSort';
 
 const MovieListHeaderPanel = styled.form`

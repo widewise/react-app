@@ -1,13 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-
-const genreTitles = [
-  'all',
-  'documentary',
-  'comedy',
-  'horror',
-  'crime',
-];
+import { GENRE_TITLES } from '../../../../Models/genreTitles';
 
 const MovieGenre = styled.div`
     display: flex;
@@ -49,11 +42,11 @@ const GenreLabel = styled.label`
     }
 `;
 
-export default function MovieFilter() {
+export function MovieFilter() {
   return (
     <MovieGenre>
       {
-        genreTitles.map(
+        GENRE_TITLES.map(
           (genre) => (
             <GenreLabel key={genre}>
               <input type="radio" name="genre" value={genre} />
@@ -65,3 +58,5 @@ export default function MovieFilter() {
     </MovieGenre>
   );
 }
+
+export default MovieFilter;

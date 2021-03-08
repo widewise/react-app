@@ -1,10 +1,12 @@
 export class Movie {
-  constructor(id, name, genres, releaseDate, poster) {
+  constructor(id, title, releaseDate, url, genres, overview, runtime) {
     this.id = id;
-    this.name = name;
-    this.genres = genres;
+    this.title = title;
     this.releaseDate = releaseDate;
-    this.poster = poster;
+    this.url = url;
+    this.genres = genres;
+    this.overview = overview;
+    this.runtime = runtime;
   }
 }
 

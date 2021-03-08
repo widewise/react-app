@@ -7,12 +7,12 @@ import MovieList from './MovieList';
 import { Movie } from '../../Models/movie';
 
 const movies = [
-  new Movie(1, 'Pulp Fiction', ['Action & Adventure'], 2004),
-  new Movie(2, 'Bohemian Rhapsody', ['Drama', 'Biography', 'Music'], 2003),
-  new Movie(3, 'Kill Bill: Vol 2', ['Oscar winning movie'], 1994),
-  new Movie(4, 'Avengets: War of infinity', ['Action & Adventure'], 2004),
-  new Movie(5, 'Inception', ['Action & Adventure'], 2003),
-  new Movie(6, 'Reservoir dogs', ['Oscar winning movie'], 1994),
+  new Movie(1, 'Pulp Fiction', '2004-01-01', '', ['Action & Adventure'], '', ''),
+  new Movie(2, 'Bohemian Rhapsody', '2003-01-01', '', ['Drama', 'Biography', 'Music'], '', ''),
+  new Movie(3, 'Kill Bill: Vol 2', '1994-01-01', '', ['Oscar winning movie'], ''),
+  new Movie(4, 'Avengets: War of infinity', '2004-01-01', '', ['Action & Adventure'], '', ''),
+  new Movie(5, 'Inception', '2003-01-01', '', ['Action & Adventure'], ''),
+  new Movie(6, 'Reservoir dogs', '1994-01-01', '', ['Oscar winning movie'], '', ''),
 ];
 
 const MainPanel = styled.main`

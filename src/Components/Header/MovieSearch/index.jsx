@@ -1,6 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
+import { EnterButton } from '../../EnterButton';
 
 const SearchForm = styled.form`
     display: flex;
@@ -19,7 +20,7 @@ const SearchTearmField = styled.input`
     background-color: #23232388;
     border: 0;
     flex: 1;
-    height: 38px;
+    height: 41px;
     padding-left: 10px;
     color: #FFFFFF;
     margin-right: 10px;
@@ -33,16 +34,6 @@ const SearchTearmField = styled.input`
     border-radius: 3px;
 `;
 
-const SearchButton = styled.input`
-    background-color: #F65261;
-    width: 200px;
-    height: 40px;
-    color: #FFFFFF;
-    font-size: 20px;
-    border-radius: 3px;
-    border: 0;
-`;
-
 function OnSubmit(event) {
   event.preventDefault();
 }
@@ -52,7 +43,7 @@ export default function MovieSearch({ className }) {
     <SearchForm className={className} onSubmit={OnSubmit}>
       <SearchLabel>FIND YOUR MOVIE</SearchLabel>
       <SearchTearmField placeholder="What do you want to watch?" />
-      <SearchButton type="submit" value="Search" />
+      <EnterButton type="submit" value="Search" />
     </SearchForm>
   );
 }
