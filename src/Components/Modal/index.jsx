@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { useCallback, useEffect } from 'react';
 import styled, { createGlobalStyle } from 'styled-components';
 import PropTypes from 'prop-types';
 import CloseButton from '../CloseButton';
@@ -45,55 +45,42 @@ const CloseButtonModel = styled(CloseButton)`
     right: 10px;
 `;
 
-class Modal extends Component {
-  constructor(props) {
-    super(props);
-
-    this.handleKeyUp = this.handleKeyUp.bind(this);
-  }
-
-  componentDidMount() {
-    window.addEventListener('keyup', this.handleKeyUp, false);
-  }
-
-  componentWillUnmount() {
-    window.removeEventListener('keyup', this.handleKeyUp, false);
-  }
-
-  handleKeyUp(e) {
-    const { onCloseRequest } = this.props;
+export default function Modal({ onCloseRequest, children }) {
+  const handleKeyUp = useCallback((e) => {
     const keys = {
       27: () => {
         e.preventDefault();
         onCloseRequest();
-        window.removeEventListener('keyup', this.handleKeyUp, false);
+        window.removeEventListener('keyup', handleKeyUp, false);
       },
     };
 
     if (keys[e.keyCode]) {
       keys[e.keyCode]();
     }
-  }
+  });
 
-  render() {
-    const {
-      onCloseRequest,
-      children,
-    } = this.props;
-    return (
-      <>
-        <GlobalStyle />
-        <ModalOverlay>
-          <ModalBorder>
-            <CloseButtonModel onClick={onCloseRequest} sizeInPixels={32} />
-            <ModalContent>
-              {children}
-            </ModalContent>
-          </ModalBorder>
-        </ModalOverlay>
-      </>
-    );
-  }
+  useEffect(() => {
+    window.addEventListener('keyup', handleKeyUp, false);
+
+    return () => {
+      window.removeEventListener('keyup', handleKeyUp, false);
+    };
+  }, []);
+
+  return (
+    <>
+      <GlobalStyle />
+      <ModalOverlay>
+        <ModalBorder>
+          <CloseButtonModel onClick={onCloseRequest} sizeInPixels={32} />
+          <ModalContent>
+            {children}
+          </ModalContent>
+        </ModalBorder>
+      </ModalOverlay>
+    </>
+  );
 }
 
 Modal.propTypes = {
@@ -103,5 +90,3 @@ Modal.propTypes = {
     PropTypes.node,
   ]).isRequired,
 };
-
-export default Modal;

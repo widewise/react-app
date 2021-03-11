@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import CloseButton from '../../CloseButton';
 import { Movie } from '../../../Models/movie';
 import Modal from '../../Modal';
-import { MovieEditor } from '../../MovieEditor';
+import MovieEditor from '../../MovieEditor';
 import MovieDelete from '../../MovieDelete';
 
 const MenuListPanel = styled.div`

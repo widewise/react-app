@@ -1,8 +1,9 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
 import { Movie } from '../../../../../Models/movie';
 import { ContextMenu, ContextMenuPanel } from '../../../../ContextMenu';
+import { MovieDetailsContext } from '../../../../../Contexts/movieDetailsContext';
 
 const MoviePosterPanel = styled.div`
     position: relative;
@@ -17,10 +18,17 @@ const MoviePosterImage = styled.img`
 `;
 
 export default function MoviePoster({ movie }) {
+  const [, setMovieId] = useContext(MovieDetailsContext);
   return (
-    <MoviePosterPanel tabindex={0}>
+    <MoviePosterPanel
+      tabindex={0}
+      onClick={() => setMovieId(movie.id)}
+    >
       <ContextMenu movie={movie} />
-      <MoviePosterImage src={movie.url ?? ''} alt="Poster" />
+      <MoviePosterImage
+        src={movie.url ?? ''}
+        alt="Poster"
+      />
     </MoviePosterPanel>
   );
 }

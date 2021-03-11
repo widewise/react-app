@@ -28,9 +28,8 @@ const ButtonGap = styled.h1`
     flex: 1;
 `;
 
-const MovieEnterButton = styled(EnterButton)`
+const MovieSubmitButton = styled(EnterButton)`
     margin-left: 20px;
-    width: 100px;
 `;
 
 export default function MovieDelete({ onCloseRequest }) {
@@ -45,7 +44,7 @@ export default function MovieDelete({ onCloseRequest }) {
       <DeleteMessage>Are you sure you want to delete this movie?</DeleteMessage>
       <ButtonsPanel>
         <ButtonGap />
-        <MovieEnterButton type="submit" value="SUBMIT" />
+        <MovieSubmitButton type="submit" value="SUBMIT" />
       </ButtonsPanel>
     </DeleteForm>
   );

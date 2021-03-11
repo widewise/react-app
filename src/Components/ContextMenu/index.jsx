@@ -1,8 +1,9 @@
-import React, { Component } from 'react';
+import React from 'react';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
 import Menu from './Menu';
 import { Movie } from '../../Models/movie';
+import useToggle from '../../Hooks/useToggle';
 
 export const ContextMenuPanel = styled.div`
     opacity: 0;
@@ -31,30 +32,16 @@ const MenuButton = styled.button`
         center 7px;
 `;
 
-export class ContextMenu extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      showMenu: false,
-    };
-  }
+export function ContextMenu({ movie }) {
+  const [showMenu, toggleShowMenu] = useToggle();
 
-  handleToggleMenu() {
-    const { showMenu } = this.state;
-    this.setState({ showMenu: !showMenu });
-  }
-
-  render() {
-    const { showMenu } = this.state;
-    const { movie } = this.props;
-    return (
-      <ContextMenuPanel>
-        {showMenu
-          ? <Menu onCloseRequest={() => this.handleToggleMenu()} movie={movie} />
-          : <MenuButton type="button" onClick={() => this.handleToggleMenu()} />}
-      </ContextMenuPanel>
-    );
-  }
+  return (
+    <ContextMenuPanel>
+      {showMenu
+        ? <Menu onCloseRequest={() => toggleShowMenu()} movie={movie} />
+        : <MenuButton type="button" onClick={() => toggleShowMenu()} />}
+    </ContextMenuPanel>
+  );
 }
 
 ContextMenu.propTypes = {

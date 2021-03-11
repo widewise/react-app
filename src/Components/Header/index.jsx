@@ -1,13 +1,15 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import styled from 'styled-components';
 import Title from '../Title';
 import MovieAdd from './MovieAdd';
 import MovieSearch from './MovieSearch';
 import { Container } from '../Container';
+import MovieDetailsViewer from '../MovieDetailsViewer';
+import { MovieDetailsContext } from '../../Contexts/movieDetailsContext';
 
 const HeaderPanel = styled.header`
     background-color: #424242;
-    height: 350px;
+    min-height: 350px;
     color: #FFFFFF;
 `;
 
@@ -22,14 +24,22 @@ const HeaderMovieSearch = styled(MovieSearch)`
 `;
 
 export default function Header() {
+  const [movieId, setMovieId] = useContext(MovieDetailsContext);
+
   return (
     <HeaderPanel>
       <Container>
-        <TitleControl>
-          <Title />
-          <MovieAdd />
-        </TitleControl>
-        <HeaderMovieSearch />
+        {movieId > 0
+          ? <MovieDetailsViewer movieId={movieId} onCloseRequest={() => setMovieId(0)} />
+          : (
+            <>
+              <TitleControl>
+                <Title />
+                <MovieAdd />
+              </TitleControl>
+              <HeaderMovieSearch />
+            </>
+          )}
       </Container>
     </HeaderPanel>
   );

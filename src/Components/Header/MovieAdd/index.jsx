@@ -1,7 +1,8 @@
-import React, { Component } from 'react';
+import React from 'react';
 import styled from 'styled-components';
 import Modal from '../../Modal';
-import { MovieEditor } from '../../MovieEditor';
+import MovieEditor from '../../MovieEditor';
+import useToggle from '../../../Hooks/useToggle';
 
 const AddButton = styled.button`
     background-color: #55555599;
@@ -13,34 +14,21 @@ const AddButton = styled.button`
     border: 0;
 `;
 
-class MovieAdd extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      showModal: false,
-    };
-    this.handleToggleModal = this.handleToggleModal.bind(this);
-  }
-
-  handleToggleModal() {
-    const { showModal } = this.state;
-    this.setState({ showModal: !showModal });
-  }
-
-  render() {
-    const { showModal } = this.state;
-    return (
-      <>
-        <AddButton onClick={() => this.handleToggleModal()}>+ ADD MOVIE</AddButton>
-        {showModal
-        && (
-        <Modal onCloseRequest={this.handleToggleModal}>
-          <MovieEditor onCloseRequest={this.handleToggleModal} />
-        </Modal>
-        )}
-      </>
-    );
-  }
+function MovieAdd() {
+  const [showModal, toggleShowModal] = useToggle();
+  return (
+    <>
+      <AddButton onClick={() => toggleShowModal()}>
+        + ADD MOVIE
+      </AddButton>
+      {showModal
+      && (
+      <Modal onCloseRequest={() => toggleShowModal()}>
+        <MovieEditor onCloseRequest={() => toggleShowModal()} />
+      </Modal>
+      )}
+    </>
+  );
 }
 
 export default MovieAdd;

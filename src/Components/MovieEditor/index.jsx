@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { useCallback, useState } from 'react';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
 import { FieldEditor, EditorPanel, EditorLabel } from './FieldEditor';
@@ -44,72 +44,58 @@ const MovieEnterButton = styled(EnterButton)`
     margin-left: 20px;
 `;
 
-export class MovieEditor extends Component {
-  constructor(props) {
-    super(props);
-    const movie = JSON.parse(JSON.stringify(props.movie));
-    this.state = {
-      movie,
-    };
-  }
+export default function MovieEditor({ movie, onCloseRequest }) {
+  const [editMovie, setEditMovie] = useState(() => JSON.parse(JSON.stringify(movie)));
 
-  OnChange(event) {
-    const { movie } = this.state;
-    movie[event.target.id] = event.target.value;
-    this.setState({ movie });
-  }
+  const OnChange = useCallback((event) => {
+    editMovie[event.target.id] = event.target.value;
+    setEditMovie(editMovie);
+  });
 
-  OnSubmit(event) {
+  const OnSubmit = useCallback((event) => {
     event.preventDefault();
-    const { onCloseRequest } = this.props;
     onCloseRequest();
-  }
+  });
 
-  OnReset(event) {
+  const OnReset = useCallback((event) => {
     event.preventDefault();
-    const { onCloseRequest } = this.props;
     onCloseRequest();
-  }
+  });
 
-  render() {
-    const { movie } = this.state;
-    return (
-      <MovieForm onSubmit={(e) => this.OnSubmit(e)} onReset={(e) => this.OnReset(e)}>
-        <EditorTitle>{movie.id <= 0 ? 'NEW MOVIE' : 'EDIT MOVIE'}</EditorTitle>
-        <FieldEditor fieldKey="title" label="TITLE" fieldType="text" fieldValue={movie.title} placeHolder="Title here" onChange={(event) => this.OnChange(event)} />
-        <FieldEditor fieldKey="releaseDate" label="RELEASE DATE" fieldType="date" fieldValue={movie.releaseDate} placeHolder="Select Date" onChange={(event) => this.OnChange(event)} />
-        <FieldEditor fieldKey="url" label="MOVIE URL" fieldType="url" fieldValue={movie.url} placeHolder="Movie URL here" onChange={(event) => this.OnChange(event)} />
-        <EditorPanel>
-          <EditorLabel>GENRE</EditorLabel>
-          <GenreSelect key="genre" value={movie.genre} placeholder="Select Genre" onChange={(event) => this.OnChange(event)}>
-            {
-          GENRE_TITLES.map(
-            (genre) => (
-              <option key={genre}>{genre}</option>
-            ),
-          )
-          }
-          </GenreSelect>
-        </EditorPanel>
-        <FieldEditor fieldKey="overview" label="OVERVIEW" fieldType="text" fieldValue={movie.overview} placeHolder="Overview here" onChange={(event) => this.OnChange(event)} />
-        <FieldEditor fieldKey="runtime" label="RUNTIME" fieldType="text" fieldValue={movie.runtime} placeHolder="Runtime here" onChange={(event) => this.OnChange(event)} />
-        <ButtonsPanel>
-          <ButtonGap />
-          <ResetButton type="reset" value="RESET" />
-          <MovieEnterButton type="submit" value="SUBMIT" />
-        </ButtonsPanel>
-      </MovieForm>
-    );
-  }
+  return (
+    <MovieForm onSubmit={(e) => OnSubmit(e)} onReset={(e) => OnReset(e)}>
+      <EditorTitle>{editMovie.id <= 0 ? 'NEW MOVIE' : 'EDIT MOVIE'}</EditorTitle>
+      <FieldEditor fieldKey="title" label="TITLE" fieldType="text" fieldValue={editMovie.title} placeHolder="Title here" onChange={(event) => OnChange(event)} />
+      <FieldEditor fieldKey="releaseDate" label="RELEASE DATE" fieldType="date" fieldValue={editMovie.releaseDate} placeHolder="Select Date" onChange={(event) => OnChange(event)} />
+      <FieldEditor fieldKey="url" label="MOVIE URL" fieldType="url" fieldValue={editMovie.url} placeHolder="Movie URL here" onChange={(event) => OnChange(event)} />
+      <EditorPanel>
+        <EditorLabel>GENRE</EditorLabel>
+        <GenreSelect key="genre" value={editMovie.genre} placeholder="Select Genre" onChange={(event) => OnChange(event)}>
+          {
+        GENRE_TITLES.map(
+          (genre) => (
+            <option key={genre}>{genre}</option>
+          ),
+        )
+        }
+        </GenreSelect>
+      </EditorPanel>
+      <FieldEditor fieldKey="overview" label="OVERVIEW" fieldType="text" fieldValue={editMovie.overview} placeHolder="Overview here" onChange={(event) => OnChange(event)} />
+      <FieldEditor fieldKey="runtime" label="RUNTIME" fieldType="text" fieldValue={editMovie.runtime} placeHolder="Runtime here" onChange={(event) => OnChange(event)} />
+      <ButtonsPanel>
+        <ButtonGap />
+        <ResetButton type="reset" value="RESET" />
+        <MovieEnterButton type="submit" value="SUBMIT" />
+      </ButtonsPanel>
+    </MovieForm>
+  );
 }
 
 MovieEditor.defaultProps = {
-  movie: new Movie(-1, '', new Date().getFullYear(), '', [], '', ''),
+  movie: new Movie(-1, '', new Date(), '', [], '', ''),
 };
 
 MovieEditor.propTypes = {
   movie: PropTypes.instanceOf(Movie),
   onCloseRequest: PropTypes.func.isRequired,
 };
-
-export default MovieEditor;
