@@ -1,8 +1,7 @@
-import React, { useState } from 'react';
+import React, { FunctionComponent, useState } from 'react';
 import styled from 'styled-components';
-import PropTypes from 'prop-types';
 import CloseButton from '../../CloseButton';
-import { Movie } from '../../../Models/movie';
+import Movie from '../../../Models/movie';
 import Modal from '../../Modal';
 import MovieEditor from '../../MovieEditor';
 import MovieDelete from '../../MovieDelete';
@@ -39,7 +38,12 @@ const MenuItem = styled.li`
     }
 `;
 
-export default function Menu({ onCloseRequest, movie }) {
+interface Props {
+  onCloseRequest: () => void,
+  movie: Movie,
+}
+
+const Menu: FunctionComponent<Props> = ({ onCloseRequest, movie }: Props) => {
   const [state, setState] = useState('start');
   return (
     <>
@@ -48,7 +52,7 @@ export default function Menu({ onCloseRequest, movie }) {
       <MenuListPanel>
         <MenuHeaderPanel>
           <MenuHeader />
-          <CloseButton onClick={onCloseRequest} sizeInPixels={18} />
+          <CloseButton onClick={() => onCloseRequest()} sizeInPixels={18} />
         </MenuHeaderPanel>
         <MenuList>
           <MenuItem onClick={() => setState('editMovie')}>EDIT</MenuItem>
@@ -68,9 +72,6 @@ export default function Menu({ onCloseRequest, movie }) {
       )}
     </>
   );
-}
-
-Menu.propTypes = {
-  onCloseRequest: PropTypes.func.isRequired,
-  movie: PropTypes.instanceOf(Movie).isRequired,
 };
+
+export default Menu;

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { FunctionComponent } from 'react';
 import styled from 'styled-components';
 import Modal from '../../Modal';
 import MovieEditor from '../../MovieEditor';
@@ -14,7 +14,7 @@ const AddButton = styled.button`
     border: 0;
 `;
 
-function MovieAdd() {
+const MovieAdd: FunctionComponent = () => {
   const [showModal, toggleShowModal] = useToggle();
   return (
     <>
@@ -29,6 +29,6 @@ function MovieAdd() {
       )}
     </>
   );
-}
+};
 
 export default MovieAdd;

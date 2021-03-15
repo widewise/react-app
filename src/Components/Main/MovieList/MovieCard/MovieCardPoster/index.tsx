@@ -1,9 +1,8 @@
-import React, { useContext } from 'react';
+import React, { FunctionComponent } from 'react';
 import styled from 'styled-components';
-import PropTypes from 'prop-types';
-import { Movie } from '../../../../../Models/movie';
+import Movie from '../../../../../Models/movie';
 import { ContextMenu, ContextMenuPanel } from '../../../../ContextMenu';
-import { MovieDetailsContext } from '../../../../../Contexts/movieDetailsContext';
+import { useMovieDetailsContext } from '../../../../../Contexts/movieDetailsContext';
 
 const MoviePosterPanel = styled.div`
     position: relative;
@@ -17,11 +16,15 @@ const MoviePosterPanel = styled.div`
 const MoviePosterImage = styled.img`
 `;
 
-export default function MoviePoster({ movie }) {
-  const [, setMovieId] = useContext(MovieDetailsContext);
+interface Props {
+  movie: Movie,
+}
+
+const MoviePoster: FunctionComponent<Props> = ({ movie }: Props) => {
+  const { setMovieId } = useMovieDetailsContext();
   return (
     <MoviePosterPanel
-      tabindex={0}
+      tabIndex={0}
       onClick={() => setMovieId(movie.id)}
     >
       <ContextMenu movie={movie} />
@@ -31,8 +34,6 @@ export default function MoviePoster({ movie }) {
       />
     </MoviePosterPanel>
   );
-}
-
-MoviePoster.propTypes = {
-  movie: PropTypes.instanceOf(Movie).isRequired,
 };
+
+export default MoviePoster;

@@ -8,8 +8,12 @@
 # testing
 /coverage
 
+#develop
+/dev
+
 # production
 /build
+/prod
 
 # misc
 .DS_Store

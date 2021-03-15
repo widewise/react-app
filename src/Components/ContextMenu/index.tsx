@@ -1,8 +1,7 @@
-import React from 'react';
+import React, { FunctionComponent } from 'react';
 import styled from 'styled-components';
-import PropTypes from 'prop-types';
 import Menu from './Menu';
-import { Movie } from '../../Models/movie';
+import Movie from '../../Models/movie';
 import useToggle from '../../Hooks/useToggle';
 
 export const ContextMenuPanel = styled.div`
@@ -32,7 +31,11 @@ const MenuButton = styled.button`
         center 7px;
 `;
 
-export function ContextMenu({ movie }) {
+interface Props {
+  movie: Movie,
+}
+
+export const ContextMenu: FunctionComponent<Props> = ({ movie }: Props) => {
   const [showMenu, toggleShowMenu] = useToggle();
 
   return (
@@ -42,10 +45,6 @@ export function ContextMenu({ movie }) {
         : <MenuButton type="button" onClick={() => toggleShowMenu()} />}
     </ContextMenuPanel>
   );
-}
-
-ContextMenu.propTypes = {
-  movie: PropTypes.instanceOf(Movie).isRequired,
 };
 
-export default { ContextMenu, ContextMenuPanel };
+export default [ContextMenu, ContextMenuPanel];

@@ -1,18 +1,18 @@
-import React, { useEffect, useState } from 'react';
+import React, { FunctionComponent, useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { Container } from '../Container';
 import MovieListHeader from './MovieListHeader';
 import MovieSummary from './MovieSummary';
 import MovieList from './MovieList';
-import { Movie } from '../../Models/movie';
+import Movie from '../../Models/movie';
 
 const moviesArray = [
-  new Movie(1, 'Pulp Fiction', '2004-01-01', '', ['Action & Adventure'], '', ''),
-  new Movie(2, 'Bohemian Rhapsody', '2003-01-01', '', ['Drama', 'Biography', 'Music'], '', ''),
-  new Movie(3, 'Kill Bill: Vol 2', '1994-01-01', '', ['Oscar winning movie'], '', ''),
-  new Movie(4, 'Avengets: War of infinity', '2004-01-01', '', ['Action & Adventure'], '', ''),
-  new Movie(5, 'Inception', '2003-01-01', '', ['Action & Adventure'], '', ''),
-  new Movie(6, 'Reservoir dogs', '1994-01-01', '', ['Oscar winning movie'], '', ''),
+  new Movie(1, 'Pulp Fiction', new Date('2004-01-01'), '', ['Action & Adventure'], '', ''),
+  new Movie(2, 'Bohemian Rhapsody', new Date('2003-01-01'), '', ['Drama', 'Biography', 'Music'], '', ''),
+  new Movie(3, 'Kill Bill: Vol 2', new Date('1994-01-01'), '', ['Oscar winning movie'], '', ''),
+  new Movie(4, 'Avengets: War of infinity', new Date('2004-01-01'), '', ['Action & Adventure'], '', ''),
+  new Movie(5, 'Inception', new Date('2003-01-01'), '', ['Action & Adventure'], '', ''),
+  new Movie(6, 'Reservoir dogs', new Date('1994-01-01'), '', ['Oscar winning movie'], '', ''),
 ];
 
 const MainPanel = styled.main`
@@ -21,7 +21,7 @@ const MainPanel = styled.main`
     padding-bottom: 40px;
 `;
 
-export default function Main() {
+const Main: FunctionComponent = () => {
   const [movies, setMovies] = useState([]);
   const [isLoaded, setLoaded] = useState(false);
 
@@ -49,4 +49,6 @@ export default function Main() {
       </Container>
     </MainPanel>
   );
-}
+};
+
+export default Main;

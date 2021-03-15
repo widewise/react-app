@@ -1,6 +1,5 @@
-import React from 'react';
+import React, { FunctionComponent } from 'react';
 import styled from 'styled-components';
-import PropTypes from 'prop-types';
 import SelectOption from './SelectOption';
 
 const SelectField = styled.select`
@@ -28,31 +27,33 @@ const SelectOptions = styled.ul`
     list-style: none;
 `;
 
-export default function MultipleSelect({ optionValues, selectedValues, onChange }) {
-  return (
-    <SelectField key="genre" value={selectedValues} placeholder="Select Genre" onChange={onChange}>
-      <SelectMenu>
-        <SelectOptions>
-          {
+interface Props {
+    optionValues: Array<string>,
+    selectedValues: Array<string>,
+    onChange: () => void,
+}
+
+const MultipleSelect: FunctionComponent<Props> = (
+  { optionValues, selectedValues, onChange }: Props,
+) => (
+  <SelectField key="genre" value={selectedValues} placeholder="Select Genre" onChange={onChange}>
+    <SelectMenu>
+      <SelectOptions>
+        {
   optionValues.map(
     (optionValue) => (
       <SelectOption
         optionValue={optionValue}
-        isSelected={selectedValues.include(optionValue)}
+        isSelected={selectedValues.includes(optionValue)}
       >
         {optionValue}
       </SelectOption>
     ),
   )
 }
-        </SelectOptions>
-      </SelectMenu>
-    </SelectField>
-  );
-}
+      </SelectOptions>
+    </SelectMenu>
+  </SelectField>
+);
 
-MultipleSelect.propTypes = {
-  optionValues: PropTypes.arrayOf(PropTypes.string).isRequired,
-  selectedValues: PropTypes.arrayOf(PropTypes.string).isRequired,
-  onChange: PropTypes.func.isRequired,
-};
+export default MultipleSelect;

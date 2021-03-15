@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { FunctionComponent } from 'react';
 import styled from 'styled-components';
 
 const SortLabel = styled.label`
@@ -13,13 +13,13 @@ const SortSelect = styled.select`
     color: #FFFFFF;
 `;
 
-export default function MovieSort() {
-  return (
-    <>
-      <SortLabel>SORT BY</SortLabel>
-      <SortSelect>
-        <option>RELEASE DATE</option>
-      </SortSelect>
-    </>
-  );
-}
+const MovieSort: FunctionComponent = () => (
+  <>
+    <SortLabel>SORT BY</SortLabel>
+    <SortSelect>
+      <option>RELEASE DATE</option>
+    </SortSelect>
+  </>
+);
+
+export default MovieSort;

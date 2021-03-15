@@ -1,6 +1,5 @@
-import React from 'react';
+import React, { FunctionComponent } from 'react';
 import styled from 'styled-components';
-import PropTypes from 'prop-types';
 import { EnterButton } from '../EnterButton';
 
 const DeleteForm = styled.form`
@@ -32,14 +31,18 @@ const MovieSubmitButton = styled(EnterButton)`
     margin-left: 20px;
 `;
 
-export default function MovieDelete({ onCloseRequest }) {
-  function OnSubmit(event) {
+interface Props {
+  onCloseRequest: () => void
+}
+
+const MovieDelete: FunctionComponent<Props> = ({ onCloseRequest }: Props) => {
+  function OnSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
     onCloseRequest();
   }
 
   return (
-    <DeleteForm onSubmit={OnSubmit}>
+    <DeleteForm onSubmit={(event: React.FormEvent<HTMLFormElement>) => OnSubmit(event)}>
       <DeleteTitle>DELETE MOVIE</DeleteTitle>
       <DeleteMessage>Are you sure you want to delete this movie?</DeleteMessage>
       <ButtonsPanel>
@@ -48,8 +51,6 @@ export default function MovieDelete({ onCloseRequest }) {
       </ButtonsPanel>
     </DeleteForm>
   );
-}
-
-MovieDelete.propTypes = {
-  onCloseRequest: PropTypes.func.isRequired,
 };
+
+export default MovieDelete;

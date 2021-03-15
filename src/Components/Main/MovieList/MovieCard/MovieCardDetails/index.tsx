@@ -1,7 +1,6 @@
-import React from 'react';
+import React, { FunctionComponent } from 'react';
 import styled from 'styled-components';
-import PropTypes from 'prop-types';
-import { Movie } from '../../../../../Models/movie';
+import Movie from '../../../../../Models/movie';
 
 const MovieDetailsPanel = styled.div`
     height: 50px;
@@ -31,18 +30,18 @@ const ReleaseDateLabel = styled.label`
     padding-right: 10px;
 `;
 
-export default function MovieCardDetails({ movie }) {
-  return (
-    <MovieDetailsPanel>
-      <MovieCardDetailsFirstRow>
-        <TitleLabel>{movie.title}</TitleLabel>
-        <ReleaseDateLabel>{new Date(movie.releaseDate).getFullYear()}</ReleaseDateLabel>
-      </MovieCardDetailsFirstRow>
-      <div>{movie.genres.join(', ')}</div>
-    </MovieDetailsPanel>
-  );
+interface Props {
+  movie: Movie,
 }
 
-MovieCardDetails.propTypes = {
-  movie: PropTypes.instanceOf(Movie).isRequired,
-};
+const MovieCardDetails: FunctionComponent<Props> = ({ movie }: Props) => (
+  <MovieDetailsPanel>
+    <MovieCardDetailsFirstRow>
+      <TitleLabel>{movie.title}</TitleLabel>
+      <ReleaseDateLabel>{new Date(movie.releaseDate).getFullYear()}</ReleaseDateLabel>
+    </MovieCardDetailsFirstRow>
+    <div>{movie.genres.join(', ')}</div>
+  </MovieDetailsPanel>
+);
+
+export default MovieCardDetails;

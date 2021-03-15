@@ -1,6 +1,7 @@
-import React, { useCallback, useEffect } from 'react';
+import React, {
+  FunctionComponent, ReactNode, useCallback, useEffect,
+} from 'react';
 import styled, { createGlobalStyle } from 'styled-components';
-import PropTypes from 'prop-types';
 import CloseButton from '../CloseButton';
 
 const GlobalStyle = createGlobalStyle`
@@ -45,20 +46,19 @@ const CloseButtonModel = styled(CloseButton)`
     right: 10px;
 `;
 
-export default function Modal({ onCloseRequest, children }) {
-  const handleKeyUp = useCallback((e) => {
-    const keys = {
-      27: () => {
-        e.preventDefault();
-        onCloseRequest();
-        window.removeEventListener('keyup', handleKeyUp, false);
-      },
-    };
+interface Props {
+  onCloseRequest: () => void,
+  children: ReactNode,
+}
 
-    if (keys[e.keyCode]) {
-      keys[e.keyCode]();
+const Modal: FunctionComponent<Props> = ({ onCloseRequest, children }: Props) => {
+  const handleKeyUp = useCallback((e: KeyboardEvent) => {
+    if (e.key === '27') {
+      e.preventDefault();
+      onCloseRequest();
+      window.removeEventListener('keyup', handleKeyUp, false);
     }
-  });
+  }, []);
 
   useEffect(() => {
     window.addEventListener('keyup', handleKeyUp, false);
@@ -81,12 +81,6 @@ export default function Modal({ onCloseRequest, children }) {
       </ModalOverlay>
     </>
   );
-}
-
-Modal.propTypes = {
-  onCloseRequest: PropTypes.func.isRequired,
-  children: PropTypes.oneOfType([
-    PropTypes.arrayOf(PropTypes.node),
-    PropTypes.node,
-  ]).isRequired,
 };
+
+export default Modal;

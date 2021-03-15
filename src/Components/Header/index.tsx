@@ -1,11 +1,11 @@
-import React, { useContext } from 'react';
+import React, { FunctionComponent } from 'react';
 import styled from 'styled-components';
 import Title from '../Title';
 import MovieAdd from './MovieAdd';
 import MovieSearch from './MovieSearch';
 import { Container } from '../Container';
 import MovieDetailsViewer from '../MovieDetailsViewer';
-import { MovieDetailsContext } from '../../Contexts/movieDetailsContext';
+import { useMovieDetailsContext } from '../../Contexts/movieDetailsContext';
 
 const HeaderPanel = styled.header`
     background-color: #424242;
@@ -23,8 +23,8 @@ const HeaderMovieSearch = styled(MovieSearch)`
     padding-right: 60px;
 `;
 
-export default function Header() {
-  const [movieId, setMovieId] = useContext(MovieDetailsContext);
+const Header: FunctionComponent = () => {
+  const { movieId, setMovieId } = useMovieDetailsContext();
 
   return (
     <HeaderPanel>
@@ -43,4 +43,6 @@ export default function Header() {
       </Container>
     </HeaderPanel>
   );
-}
+};
+
+export default Header;

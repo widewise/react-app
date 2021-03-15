@@ -7,7 +7,7 @@ const buildFolder = isEnvDevelopment ? 'dev' : 'prod';
 
 module.exports = {
   mode: process.env.NODE_ENV,
-  entry: ['./src/index.jsx'],
+  entry: ['./src/index.tsx'],
   output: {
     filename: '[name].bundle.js',
     chunkFilename: '[name].bundle.js',
@@ -50,12 +50,21 @@ module.exports = {
         },
       },
       {
+        test: /\.tsx?$/,
+        exclude: /node_modules/,
+        use: [
+          {
+            loader: 'ts-loader',
+          },
+        ],
+      },
+      {
         test: /\.css$/,
         use: ['style-loader', 'css-loader'],
       },
     ],
   },
   resolve: {
-    extensions: ['.js', '.jsx'],
+    extensions: ['.js', '.jsx', '.tsx', '.ts'],
   },
 };

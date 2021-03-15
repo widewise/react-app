@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { FunctionComponent } from 'react';
 import styled from 'styled-components';
 import { GENRE_TITLES } from '../../../../Models/genreTitles';
 
@@ -42,21 +42,19 @@ const GenreLabel = styled.label`
     }
 `;
 
-export function MovieFilter() {
-  return (
-    <MovieGenre>
-      {
-        GENRE_TITLES.map(
-          (genre) => (
-            <GenreLabel key={genre}>
-              <input type="radio" name="genre" value={genre} />
-              <span>{genre}</span>
-            </GenreLabel>
-          ),
-        )
-      }
-    </MovieGenre>
-  );
-}
+const MovieFilter: FunctionComponent = () => (
+  <MovieGenre>
+    {
+      GENRE_TITLES.map(
+        (genre) => (
+          <GenreLabel key={genre}>
+            <input type="radio" name="genre" value={genre} />
+            <span>{genre}</span>
+          </GenreLabel>
+        ),
+      )
+    }
+  </MovieGenre>
+);
 
 export default MovieFilter;

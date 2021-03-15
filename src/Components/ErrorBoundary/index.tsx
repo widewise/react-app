@@ -1,6 +1,5 @@
-import React from 'react';
+import React, { ErrorInfo, ReactNode } from 'react';
 import styled from 'styled-components';
-import PropTypes from 'prop-types';
 
 const ErrorMessage = styled.h1`
   background-color: blue;
@@ -11,21 +10,32 @@ const ErrorMessage = styled.h1`
   align-items: center;
 `;
 
-class ErrorBoundary extends React.Component {
-  constructor(props) {
+interface Props {
+  children?: ReactNode;
+}
+
+interface State {
+  hasError: boolean;
+}
+
+class ErrorBoundary extends React.Component<Props, State> {
+  constructor(props: Props) {
     super(props);
-    this.state = { hasError: false };
+    this.state = {
+      hasError: false,
+    };
   }
 
-  static getDerivedStateFromError() {
+  static getDerivedStateFromError(): State {
     return { hasError: true };
   }
 
-  componentDidCatch(error, errorInfo) {
+  componentDidCatch(error: Error, errorInfo: ErrorInfo) : void {
     // eslint-disable-next-line no-console
     console.error(`${error}: ${errorInfo}`);
   }
 
+  // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
   render() {
     const { hasError } = this.state;
     if (hasError) {
@@ -36,12 +46,5 @@ class ErrorBoundary extends React.Component {
     return children;
   }
 }
-
-ErrorBoundary.propTypes = {
-  children: PropTypes.oneOfType([
-    PropTypes.arrayOf(PropTypes.node),
-    PropTypes.node,
-  ]).isRequired,
-};
 
 export default ErrorBoundary;

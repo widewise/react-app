@@ -1,6 +1,5 @@
-import React, { useEffect, useState } from 'react';
+import React, { FunctionComponent, useEffect, useState } from 'react';
 import styled from 'styled-components';
-import PropTypes from 'prop-types';
 import Title from '../Title';
 import CloseButton from '../CloseButton';
 import { MovieDetails } from '../../Models/movieDetails';
@@ -73,7 +72,12 @@ const MovieDescription = styled.p`
     flex: 1;
 `;
 
-export default function MovieDetailsViewer({ movieId, onCloseRequest }) {
+interface Props {
+  movieId: number,
+  onCloseRequest: () => void
+}
+
+const MovieDetailsViewer:FunctionComponent<Props> = ({ movieId, onCloseRequest }: Props) => {
   const [movie, setMovie] = useState(new MovieDetails());
   const [isLoaded, setLoaded] = useState(false);
 
@@ -81,7 +85,7 @@ export default function MovieDetailsViewer({ movieId, onCloseRequest }) {
     setLoaded(false);
     setTimeout(() => {
       // TODO: loading data from server
-      setMovie(new MovieDetails(1, 'Pulp Fiction', 4.3, '2004-01-01', 154, '', ['Action & Adventure'], 'Pulp Fiction is a 1994 American neo-noir black comedy crime film written and directed by Quentin Tarantino, who conceived it with Roger Avary.[4] Starring John Travolta, Samuel L. Jackson, Bruce Willis, Tim Roth, Ving Rhames, and Uma Thurman, it tells several stories of criminal Los Angeles. The title refers to the pulp magazines and hardboiled crime novels popular during the mid-20th century, known for their graphic violence and punchy dialogue.'));
+      setMovie(new MovieDetails(1, 'Pulp Fiction', 4.3, new Date('2004-01-01'), 154, '', ['Action & Adventure'], 'Pulp Fiction is a 1994 American neo-noir black comedy crime film written and directed by Quentin Tarantino, who conceived it with Roger Avary.[4] Starring John Travolta, Samuel L. Jackson, Bruce Willis, Tim Roth, Ving Rhames, and Uma Thurman, it tells several stories of criminal Los Angeles. The title refers to the pulp magazines and hardboiled crime novels popular during the mid-20th century, known for their graphic violence and punchy dialogue.'));
       setLoaded(true);
     }, 1000);
   }, [movieId]);
@@ -115,9 +119,6 @@ export default function MovieDetailsViewer({ movieId, onCloseRequest }) {
         )}
     </>
   );
-}
-
-MovieDetailsViewer.propTypes = {
-  movieId: PropTypes.number.isRequired,
-  onCloseRequest: PropTypes.func.isRequired,
 };
+
+export default MovieDetailsViewer;

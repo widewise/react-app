@@ -1,6 +1,5 @@
-import React from 'react';
+import React, { FunctionComponent } from 'react';
 import styled from 'styled-components';
-import PropTypes from 'prop-types';
 import { EnterButton } from '../../EnterButton';
 
 const SearchForm = styled.form`
@@ -34,24 +33,21 @@ const SearchTearmField = styled.input`
     border-radius: 3px;
 `;
 
-function OnSubmit(event) {
+function OnSubmit(event: React.FormEvent<HTMLFormElement>) {
   event.preventDefault();
 }
 
-export default function MovieSearch({ className }) {
-  return (
-    <SearchForm className={className} onSubmit={OnSubmit}>
-      <SearchLabel>FIND YOUR MOVIE</SearchLabel>
-      <SearchTearmField placeholder="What do you want to watch?" />
-      <EnterButton type="submit" value="Search" />
-    </SearchForm>
-  );
+interface Props {
+  // eslint-disable-next-line react/require-default-props
+  className?: string,
 }
 
-MovieSearch.defaultProps = {
-  className: '',
-};
+const MovieSearch: FunctionComponent<Props> = ({ className = '' }: Props) => (
+  <SearchForm className={className} onSubmit={OnSubmit}>
+    <SearchLabel>FIND YOUR MOVIE</SearchLabel>
+    <SearchTearmField placeholder="What do you want to watch?" />
+    <EnterButton type="submit" value="Search" />
+  </SearchForm>
+);
 
-MovieSearch.propTypes = {
-  className: PropTypes.string,
-};
+export default MovieSearch;
