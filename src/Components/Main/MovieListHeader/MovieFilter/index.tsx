@@ -1,6 +1,8 @@
-import React, { FunctionComponent } from 'react';
+import React, { FunctionComponent, useCallback } from 'react';
 import styled from 'styled-components';
-import { GENRE_TITLES } from '../../../../Models/genreTitles';
+import GENRE_FILTER from '../../../../Models/genreFilter';
+import useAppSelector from '../../../../Hooks/useAppSelector';
+import useActions from '../../../../Hooks/useActions';
 
 const MovieGenre = styled.div`
     display: flex;
@@ -42,19 +44,39 @@ const GenreLabel = styled.label`
     }
 `;
 
-const MovieFilter: FunctionComponent = () => (
-  <MovieGenre>
-    {
-      GENRE_TITLES.map(
-        (genre) => (
-          <GenreLabel key={genre}>
-            <input type="radio" name="genre" value={genre} />
-            <span>{genre}</span>
+const MovieFilter: FunctionComponent = () => {
+  const { genreFilter } = useAppSelector((state) => state.movies);
+  const { setGenreFilterAction } = useActions();
+
+  const OnChangeFilter = useCallback((event: React.ChangeEvent<HTMLInputElement>) => {
+    const filter = event.target.value as GENRE_FILTER;
+    setGenreFilterAction(filter);
+  }, []);
+
+  return (
+    <MovieGenre>
+      {
+      Object.keys(GENRE_FILTER).map(
+        (genreKey, index) => (
+          <GenreLabel key={genreKey}>
+            <input
+              type="radio"
+              name="genre"
+              value={Object.values(GENRE_FILTER).filter(
+                (_value, index1) => index === index1,
+              )[0]}
+              onChange={(e) => OnChangeFilter(e)}
+              defaultChecked={Object.values(GENRE_FILTER).filter(
+                (val, index1) => index === index1 && val === genreFilter,
+              ).length > 0}
+            />
+            <span>{genreKey}</span>
           </GenreLabel>
         ),
       )
     }
-  </MovieGenre>
-);
+    </MovieGenre>
+  );
+};
 
 export default MovieFilter;

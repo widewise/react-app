@@ -1,11 +1,14 @@
-export default class Movie {
-  constructor(
-    public id = -1,
-    public title: string = '',
-    public releaseDate: Date = new Date(),
-    public url: string = '',
-    public genres: Array<string> = [],
-    public overview: string = '',
-    public runtime: string = '',
-  ) {}
-}
+export default interface Movie {
+  id: number,
+  title: string,
+  tagline: string,
+  voteAverage: number,
+  voteCount: number,
+  releaseDate: Date,
+  posterPath: string,
+  overview: string,
+  budget: number,
+  revenue: number,
+  runtime: number,
+  genres: Array<string>,
+};

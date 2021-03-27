@@ -5,7 +5,7 @@ import MovieAdd from './MovieAdd';
 import MovieSearch from './MovieSearch';
 import { Container } from '../Container';
 import MovieDetailsViewer from '../MovieDetailsViewer';
-import { useMovieDetailsContext } from '../../Contexts/movieDetailsContext';
+import useAppSelector from '../../Hooks/useAppSelector';
 
 const HeaderPanel = styled.header`
     background-color: #424242;
@@ -24,13 +24,13 @@ const HeaderMovieSearch = styled(MovieSearch)`
 `;
 
 const Header: FunctionComponent = () => {
-  const { movieId, setMovieId } = useMovieDetailsContext();
+  const { movieId } = useAppSelector((state) => state.movies);
 
   return (
     <HeaderPanel>
       <Container>
         {movieId > 0
-          ? <MovieDetailsViewer movieId={movieId} onCloseRequest={() => setMovieId(0)} />
+          ? <MovieDetailsViewer />
           : (
             <>
               <TitleControl>

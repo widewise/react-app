@@ -1,5 +1,6 @@
 import React, { FunctionComponent } from 'react';
 import styled from 'styled-components';
+import useActions from '../../Hooks/useActions';
 import { EnterButton } from '../EnterButton';
 
 const DeleteForm = styled.form`
@@ -32,12 +33,15 @@ const MovieSubmitButton = styled(EnterButton)`
 `;
 
 interface Props {
+  movieId: number,
   onCloseRequest: () => void
 }
 
-const MovieDelete: FunctionComponent<Props> = ({ onCloseRequest }: Props) => {
+const MovieDelete: FunctionComponent<Props> = ({ movieId, onCloseRequest }: Props) => {
+  const { deleteMovie } = useActions();
   function OnSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
+    deleteMovie(movieId);
     onCloseRequest();
   }
 

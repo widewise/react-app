@@ -1,5 +1,6 @@
 import React, { FunctionComponent } from 'react';
 import styled from 'styled-components';
+import useAppSelector from '../../../Hooks/useAppSelector';
 
 const CountLabel = styled.label`
     display: flex;
@@ -17,26 +18,25 @@ const CountSpace = styled.span`
     margin-left: 10px;
 `;
 
-interface Props {
-  moviesCount: number,
-}
-
-const MovieSummary: FunctionComponent<Props> = ({ moviesCount }: Props) => (
-  <>
-    <CountLabel>
-      {
-        moviesCount > 0
+const MovieSummary: FunctionComponent = () => {
+  const { total } = useAppSelector((state) => state.movies);
+  return (
+    <>
+      <CountLabel>
+        {
+        total > 0
           ? (
             <>
-              <CountNumberStrong>{moviesCount}</CountNumberStrong>
+              <CountNumberStrong>{total}</CountNumberStrong>
               <CountSpace />
               movies found
             </>
           )
           : <>movies not found</>
       }
-    </CountLabel>
-  </>
-);
+      </CountLabel>
+    </>
+  );
+};
 
 export default MovieSummary;

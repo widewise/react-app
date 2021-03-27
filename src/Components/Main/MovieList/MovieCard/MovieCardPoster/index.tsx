@@ -1,8 +1,8 @@
-import React, { FunctionComponent } from 'react';
+import React, { FunctionComponent, useCallback } from 'react';
 import styled from 'styled-components';
+import useActions from '../../../../../Hooks/useActions';
 import Movie from '../../../../../Models/movie';
 import { ContextMenu, ContextMenuPanel } from '../../../../ContextMenu';
-import { useMovieDetailsContext } from '../../../../../Contexts/movieDetailsContext';
 
 const MoviePosterPanel = styled.div`
     position: relative;
@@ -14,6 +14,9 @@ const MoviePosterPanel = styled.div`
 `;
 
 const MoviePosterImage = styled.img`
+    height: 320px;
+    width: auto;
+    max-width: 220px;
 `;
 
 interface Props {
@@ -21,15 +24,19 @@ interface Props {
 }
 
 const MoviePoster: FunctionComponent<Props> = ({ movie }: Props) => {
-  const { setMovieId } = useMovieDetailsContext();
+  const { setMovieIdAction } = useActions();
+  const onPosterClick = useCallback(() => {
+    setMovieIdAction(movie.id);
+  }, []);
+
   return (
     <MoviePosterPanel
       tabIndex={0}
-      onClick={() => setMovieId(movie.id)}
+      onClick={() => onPosterClick()}
     >
       <ContextMenu movie={movie} />
       <MoviePosterImage
-        src={movie.url ?? ''}
+        src={movie.posterPath ?? ''}
         alt="Poster"
       />
     </MoviePosterPanel>

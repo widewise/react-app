@@ -67,7 +67,7 @@ const Menu: FunctionComponent<Props> = ({ onCloseRequest, movie }: Props) => {
       )}
       {state === 'deleteMovie' && (
       <Modal onCloseRequest={onCloseRequest}>
-        <MovieDelete onCloseRequest={onCloseRequest} />
+        <MovieDelete movieId={movie.id} onCloseRequest={onCloseRequest} />
       </Modal>
       )}
     </>

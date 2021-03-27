@@ -1,8 +1,11 @@
-import React, { FunctionComponent, useEffect, useState } from 'react';
+import React, {
+  FunctionComponent, useCallback, useEffect, useState,
+} from 'react';
 import styled from 'styled-components';
 import Title from '../Title';
 import CloseButton from '../CloseButton';
-import { MovieDetails } from '../../Models/movieDetails';
+import useAppSelector from '../../Hooks/useAppSelector';
+import useActions from '../../Hooks/useActions';
 
 const TitleControl = styled.div`
     display: flex;
@@ -23,6 +26,9 @@ const MoviePosterPanel = styled.div`
 
 const MoviePosterImage = styled.img`
     flex: 1;
+    height: 320px;
+    width: auto;
+    max-width: 220px;
 `;
 
 const ViewerTextPanel = styled.div`
@@ -72,48 +78,45 @@ const MovieDescription = styled.p`
     flex: 1;
 `;
 
-interface Props {
-  movieId: number,
-  onCloseRequest: () => void
-}
-
-const MovieDetailsViewer:FunctionComponent<Props> = ({ movieId, onCloseRequest }: Props) => {
-  const [movie, setMovie] = useState(new MovieDetails());
+const MovieDetailsViewer:FunctionComponent = () => {
+  const { movieId, movie } = useAppSelector((state) => state.movies);
+  const { getMovie, setMovieIdAction } = useActions();
   const [isLoaded, setLoaded] = useState(false);
 
   useEffect(() => {
     setLoaded(false);
-    setTimeout(() => {
-      // TODO: loading data from server
-      setMovie(new MovieDetails(1, 'Pulp Fiction', 4.3, new Date('2004-01-01'), 154, '', ['Action & Adventure'], 'Pulp Fiction is a 1994 American neo-noir black comedy crime film written and directed by Quentin Tarantino, who conceived it with Roger Avary.[4] Starring John Travolta, Samuel L. Jackson, Bruce Willis, Tim Roth, Ving Rhames, and Uma Thurman, it tells several stories of criminal Los Angeles. The title refers to the pulp magazines and hardboiled crime novels popular during the mid-20th century, known for their graphic violence and punchy dialogue.'));
-      setLoaded(true);
-    }, 1000);
+    getMovie(movieId);
+    setLoaded(true);
   }, [movieId]);
+
+  const onCloseButtonClick = useCallback(() => {
+    setMovieIdAction(0);
+  }, []);
 
   return (
     <>
       <TitleControl>
         <Title />
-        <CloseButton onClick={() => onCloseRequest()} sizeInPixels={32} />
+        <CloseButton onClick={() => onCloseButtonClick()} sizeInPixels={32} />
       </TitleControl>
       {!isLoaded
         ? <h1>Data is loading ...</h1>
         : (
           <ViewerBodyPanel>
             <MoviePosterPanel>
-              <MoviePosterImage src={movie.url} alt="Poster" />
+              <MoviePosterImage src={movie.posterPath} alt="Poster" />
             </MoviePosterPanel>
             <ViewerTextPanel>
               <MovieFirstRowPanel>
                 <MovieTitleHeader>{movie.title}</MovieTitleHeader>
-                <MovieScoreHeader>{movie.score}</MovieScoreHeader>
+                <MovieScoreHeader>{movie.voteAverage}</MovieScoreHeader>
               </MovieFirstRowPanel>
               <MovieGenresPanel>{movie.genres.join(', ')}</MovieGenresPanel>
               <MovieThirdRowPanel>
                 <div>{new Date(movie.releaseDate).getFullYear()}</div>
-                <MovieDurationPanel>{`${movie.duration} min`}</MovieDurationPanel>
+                <MovieDurationPanel>{`${movie.runtime} min`}</MovieDurationPanel>
               </MovieThirdRowPanel>
-              <MovieDescription>{movie.description}</MovieDescription>
+              <MovieDescription>{movie.overview}</MovieDescription>
             </ViewerTextPanel>
           </ViewerBodyPanel>
         )}

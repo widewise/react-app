@@ -4,6 +4,7 @@ import { FieldEditor, EditorPanel, EditorLabel } from './FieldEditor';
 import { EnterButton } from '../EnterButton';
 import Movie from '../../Models/movie';
 import { GENRE_TITLES } from '../../Models/genreTitles';
+import useActions from '../../Hooks/useActions';
 
 const MovieForm = styled.form`
 `;
@@ -44,19 +45,26 @@ const MovieEnterButton = styled(EnterButton)`
 `;
 
 interface Props {
-  // eslint-disable-next-line react/require-default-props
   movie?: Movie,
-  onCloseRequest: () => void,
+  onCloseRequest?: () => void,
 }
 
-const MovieEditor: FunctionComponent<Props> = (
-  {
-    movie = new Movie(),
-    onCloseRequest,
-  }: Props,
-) => {
+const defaultProps: Props = {
+  movie: {
+    id: -1,
+    releaseDate: new Date(),
+    voteAverage: 0,
+    voteCount: 0,
+    budget: 0,
+    revenue: 0,
+  } as Movie,
+  onCloseRequest: null,
+};
+
+const MovieEditor: FunctionComponent<Props> = ({ movie, onCloseRequest }: Props) => {
   const [editMovie, setEditMovie] = useState(() => JSON.parse(JSON.stringify(movie)));
 
+  const { addOrUpdateMovie } = useActions();
   const OnChange = useCallback((event: React.ChangeEvent<HTMLInputElement>) => {
     editMovie[event.target.id] = event.target.value;
     setEditMovie(editMovie);
@@ -69,6 +77,7 @@ const MovieEditor: FunctionComponent<Props> = (
 
   const OnSubmit = useCallback((event) => {
     event.preventDefault();
+    addOrUpdateMovie(editMovie);
     onCloseRequest();
   }, []);
 
@@ -105,5 +114,7 @@ const MovieEditor: FunctionComponent<Props> = (
     </MovieForm>
   );
 };
+
+MovieEditor.defaultProps = defaultProps;
 
 export default MovieEditor;
