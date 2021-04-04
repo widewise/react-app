@@ -14,6 +14,7 @@ export const emptyMovie: Movie = {
   overview: '',
   budget: 0,
   revenue: 0,
+  runtime: 0,
   voteAverage: 0,
   voteCount: 0,
   genres: [],

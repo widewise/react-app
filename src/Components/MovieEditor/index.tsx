@@ -1,28 +1,22 @@
-import React, { FunctionComponent, useCallback, useState } from 'react';
+import React, { FunctionComponent } from 'react';
 import styled from 'styled-components';
-import { FieldEditor, EditorPanel, EditorLabel } from './FieldEditor';
+import {
+  Form, Formik, FormikProps,
+} from 'formik';
+import * as Yup from 'yup';
+import FieldEditor from './FieldEditor';
 import { EnterButton } from '../EnterButton';
 import Movie from '../../Models/movie';
-import { GENRE_TITLES } from '../../Models/genreTitles';
+import { GENRES } from '../../Models/genres';
 import useActions from '../../Hooks/useActions';
-
-const MovieForm = styled.form`
-`;
+import { emptyMovie } from '../../Store/Movie/reducers';
+import SelectEditor, { SelectOptionType } from './SelectEditor';
 
 const EditorTitle = styled.h2`
     font-size: 30px;
     margin: 0;
     margin-bottom: 30px;
     width: 100%;
-`;
-
-const GenreSelect = styled.select`
-    text-transform: uppercase;
-    flex: 1;
-    background-color: #424242;
-    border: 0;
-    color: #FFFFFF;
-    height: 38px;
 `;
 
 const ButtonsPanel = styled.div`
@@ -50,68 +44,62 @@ interface Props {
 }
 
 const defaultProps: Props = {
-  movie: {
-    id: -1,
-    releaseDate: new Date(),
-    voteAverage: 0,
-    voteCount: 0,
-    budget: 0,
-    revenue: 0,
-  } as Movie,
+  movie: emptyMovie,
   onCloseRequest: null,
 };
 
 const MovieEditor: FunctionComponent<Props> = ({ movie, onCloseRequest }: Props) => {
-  const [editMovie, setEditMovie] = useState(() => JSON.parse(JSON.stringify(movie)));
-
   const { addOrUpdateMovie } = useActions();
-  const OnChange = useCallback((event: React.ChangeEvent<HTMLInputElement>) => {
-    editMovie[event.target.id] = event.target.value;
-    setEditMovie(editMovie);
-  }, []);
 
-  const OnChangeSelect = useCallback((event: React.ChangeEvent<HTMLSelectElement>) => {
-    editMovie[event.target.id] = event.target.value;
-    setEditMovie(editMovie);
-  }, []);
+  const movieValidationSchema = Yup.object().shape({
+    title: Yup.string()
+      .required('Should enter movie title'),
+    posterPath: Yup.string()
+      .url('Incorrect movie poster URL')
+      .required('Should enter movie poster URL'),
+    overview: Yup.string()
+      .required('Should enter movie overview'),
+    runtime: Yup.number()
+      .min(0, 'Incorrect movie runtime')
+      .required('Should enter movie runtime'),
+  });
 
-  const OnSubmit = useCallback((event) => {
-    event.preventDefault();
-    addOrUpdateMovie(editMovie);
-    onCloseRequest();
-  }, []);
-
-  const OnReset = useCallback((event) => {
-    event.preventDefault();
-    onCloseRequest();
-  }, []);
+  const genreOptions = GENRES.map(
+    (genre) => ({
+      label: genre,
+      value: genre,
+    } as SelectOptionType),
+  );
 
   return (
-    <MovieForm onSubmit={(e) => OnSubmit(e)} onReset={(e) => OnReset(e)}>
-      <EditorTitle>{editMovie.id <= 0 ? 'NEW MOVIE' : 'EDIT MOVIE'}</EditorTitle>
-      <FieldEditor fieldKey="title" label="TITLE" fieldType="text" fieldValue={editMovie.title} placeHolder="Title here" onChange={(event: React.ChangeEvent<HTMLInputElement>) => OnChange(event)} />
-      <FieldEditor fieldKey="releaseDate" label="RELEASE DATE" fieldType="date" fieldValue={editMovie.releaseDate} placeHolder="Select Date" onChange={(event: React.ChangeEvent<HTMLInputElement>) => OnChange(event)} />
-      <FieldEditor fieldKey="url" label="MOVIE URL" fieldType="url" fieldValue={editMovie.url} placeHolder="Movie URL here" onChange={(event: React.ChangeEvent<HTMLInputElement>) => OnChange(event)} />
-      <EditorPanel>
-        <EditorLabel>GENRE</EditorLabel>
-        <GenreSelect key="genre" value={editMovie.genre} placeholder="Select Genre" onChange={(event) => OnChangeSelect(event)}>
-          {
-        GENRE_TITLES.map(
-          (genre) => (
-            <option key={genre}>{genre}</option>
-          ),
-        )
-        }
-        </GenreSelect>
-      </EditorPanel>
-      <FieldEditor fieldKey="overview" label="OVERVIEW" fieldType="text" fieldValue={editMovie.overview} placeHolder="Overview here" onChange={(event: React.ChangeEvent<HTMLInputElement>) => OnChange(event)} />
-      <FieldEditor fieldKey="runtime" label="RUNTIME" fieldType="text" fieldValue={editMovie.runtime} placeHolder="Runtime here" onChange={(event: React.ChangeEvent<HTMLInputElement>) => OnChange(event)} />
-      <ButtonsPanel>
-        <ButtonGap />
-        <ResetButton type="reset" value="RESET" />
-        <MovieEnterButton type="submit" value="SUBMIT" />
-      </ButtonsPanel>
-    </MovieForm>
+    <Formik
+      initialValues={{ ...movie }}
+      validationSchema={movieValidationSchema}
+      onReset={() => {
+        onCloseRequest();
+      }}
+      onSubmit={(values: Movie) => {
+        addOrUpdateMovie(values);
+        onCloseRequest();
+      }}
+    >
+      {(props: FormikProps<Movie>) => (
+        <Form>
+          <EditorTitle>{props.values.id <= 0 ? 'NEW MOVIE' : 'EDIT MOVIE'}</EditorTitle>
+          <FieldEditor label="TITLE" type="text" name="title" placeholder="Title here" />
+          <FieldEditor label="RELEASE DATE" type="date" name="releaseDate" placeholder="Select Date" />
+          <FieldEditor label="MOVIE URL" type="url" name="posterPath" placeholder="Movie URL here" />
+          <SelectEditor label="GENRE" formProps={props} options={genreOptions} name="genres" placeholder="Select Genre" isMulti />
+          <FieldEditor label="OVERVIEW" type="text" name="overview" placeholder="Overview here" />
+          <FieldEditor label="RUNTIME" type="number" name="runtime" placeholder="Runtime here" />
+          <ButtonsPanel>
+            <ButtonGap />
+            <ResetButton type="reset" value="RESET" />
+            <MovieEnterButton type="submit" value="SUBMIT" />
+          </ButtonsPanel>
+        </Form>
+      )}
+    </Formik>
   );
 };
 

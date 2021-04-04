@@ -75,13 +75,13 @@ function parseMovie(serverMovie: any): Movie {
     overview: serverMovie.overview,
     budget: serverMovie.budget,
     revenue: serverMovie.revenue,
-    runtime: serverMovie.runtime,
+    runtime: serverMovie.runtime ?? 0,
     genres: serverMovie.genres,
   } as Movie;
 }
 
-function generateRequestObjectFromMovie(movie: Movie) {
-  return {
+function generateRequestObjectFromMovie(movie: Movie, isCopyId: boolean) {
+  const generatedObject = {
     title: movie.title,
     tagline: movie.tagline,
     vote_average: movie.voteAverage,
@@ -93,8 +93,15 @@ function generateRequestObjectFromMovie(movie: Movie) {
     revenue: movie.revenue,
     runtime: movie.runtime,
     genres: movie.genres,
-    id: movie.id,
   };
+
+  if (isCopyId) {
+    return {
+      ...generatedObject,
+      id: movie.id,
+    };
+  }
+  return generatedObject;
 }
 
 export const getMovies = (
@@ -124,12 +131,16 @@ export const getMovie = (movieId: number) => async (dispatch: Dispatch<MovieActi
 
 // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
 export const addOrUpdateMovie = (movie: Movie) => async (dispatch: Dispatch<MovieAction>) => {
+  if (movie.tagline.length === 0) {
+    // eslint-disable-next-line no-param-reassign
+    movie.tagline = 'Some tagline';
+  }
   if (movie.id <= 0) {
-    const response = await axios.post(baseUrl, { data: generateRequestObjectFromMovie(movie) });
-    const responseMovie = parseMovie(response);
+    const response = await axios.post(baseUrl, generateRequestObjectFromMovie(movie, false));
+    const responseMovie = parseMovie(response.data);
     dispatch(addMovieAction(responseMovie));
   } else {
-    const response = await axios.put(baseUrl, { data: generateRequestObjectFromMovie(movie) });
+    const response = await axios.put(baseUrl, generateRequestObjectFromMovie(movie, true));
     const responseMovie = parseMovie(response);
     dispatch(editMovieAction(responseMovie));
   }
