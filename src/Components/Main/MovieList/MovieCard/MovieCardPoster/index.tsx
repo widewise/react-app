@@ -1,6 +1,6 @@
 import React, { FunctionComponent, useCallback } from 'react';
+import { useHistory } from 'react-router';
 import styled from 'styled-components';
-import useActions from '../../../../../Hooks/useActions';
 import Movie from '../../../../../Models/movie';
 import { ContextMenu, ContextMenuPanel } from '../../../../ContextMenu';
 
@@ -24,9 +24,9 @@ interface Props {
 }
 
 const MoviePoster: FunctionComponent<Props> = ({ movie }: Props) => {
-  const { setMovieIdAction } = useActions();
+  const history = useHistory();
   const onPosterClick = useCallback(() => {
-    setMovieIdAction(movie.id);
+    history.push(`/film/${movie.id}`);
   }, []);
 
   return (

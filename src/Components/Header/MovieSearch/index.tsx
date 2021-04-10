@@ -1,4 +1,5 @@
-import React, { FunctionComponent } from 'react';
+import React, { FunctionComponent, useCallback, useState } from 'react';
+import { useHistory } from 'react-router';
 import styled from 'styled-components';
 import { EnterButton } from '../../EnterButton';
 
@@ -33,21 +34,38 @@ const SearchTearmField = styled.input`
     border-radius: 3px;
 `;
 
-function OnSubmit(event: React.FormEvent<HTMLFormElement>) {
-  event.preventDefault();
-}
-
 interface Props {
-  // eslint-disable-next-line react/require-default-props
   className?: string,
+  search?: string,
 }
 
-const MovieSearch: FunctionComponent<Props> = ({ className = '' }: Props) => (
-  <SearchForm className={className} onSubmit={OnSubmit}>
-    <SearchLabel>FIND YOUR MOVIE</SearchLabel>
-    <SearchTearmField placeholder="What do you want to watch?" />
-    <EnterButton type="submit" value="Search" />
-  </SearchForm>
-);
+const movieSearchDefaultProps : Props = {
+  className: '',
+  search: '',
+};
+const MovieSearch: FunctionComponent<Props> = ({ className, search }: Props) => {
+  const [inputSearch, setInputSearch] = useState(search);
+  const history = useHistory();
+
+  const OnSubmit = useCallback((event: React.FormEvent<HTMLFormElement>) => {
+    history.push(`/search/${inputSearch}`);
+    event.preventDefault();
+  }, [inputSearch]);
+
+  return (
+    <SearchForm className={className} onSubmit={(e) => OnSubmit(e)}>
+      <SearchLabel>FIND YOUR MOVIE</SearchLabel>
+      <SearchTearmField
+        type="text"
+        value={inputSearch}
+        placeholder="What do you want to watch?"
+        onChange={(e) => setInputSearch(e.target.value)}
+      />
+      <EnterButton type="submit" value="Search" />
+    </SearchForm>
+  );
+};
+
+MovieSearch.defaultProps = movieSearchDefaultProps;
 
 export default MovieSearch;

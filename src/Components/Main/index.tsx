@@ -1,3 +1,4 @@
+/* eslint-disable no-nested-ternary */
 import React, { FunctionComponent, useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { Container } from '../Container';
@@ -6,6 +7,7 @@ import MovieSummary from './MovieSummary';
 import MovieList from './MovieList';
 import useAppSelector from '../../Hooks/useAppSelector';
 import useActions from '../../Hooks/useActions';
+import EmptyMovieList from './EmptyMovieList';
 
 const MainPanel = styled.main`
     background-color: #232323;
@@ -13,7 +15,11 @@ const MainPanel = styled.main`
     padding-bottom: 40px;
 `;
 
-const Main: FunctionComponent = () => {
+interface MainProps {
+  search: string,
+}
+
+const Main: FunctionComponent<MainProps> = ({ search }: MainProps) => {
   const {
     movies, sortBy, sortOrder, genreFilter,
   } = useAppSelector((state) => state.movies);
@@ -22,9 +28,9 @@ const Main: FunctionComponent = () => {
 
   useEffect(() => {
     setLoaded(false);
-    getMovies(sortBy, sortOrder, genreFilter);
+    getMovies(sortBy, sortOrder, genreFilter, search);
     setLoaded(true);
-  }, [sortBy, genreFilter]);
+  }, [sortBy, genreFilter, search]);
 
   return (
     <MainPanel>
@@ -32,11 +38,14 @@ const Main: FunctionComponent = () => {
         <MovieListHeader />
         {!isLoaded
           ? <h1>Data is Loading ...</h1>
-          : (
-            <>
-              <MovieSummary />
-              <MovieList movies={movies} />
-            </>
+          : (movies.length > 0
+            ? (
+              <>
+                <MovieSummary />
+                <MovieList movies={movies} />
+              </>
+            )
+            : <EmptyMovieList />
           )}
       </Container>
     </MainPanel>

@@ -2,6 +2,7 @@ import React, {
   FunctionComponent, useCallback, useEffect, useState,
 } from 'react';
 import styled from 'styled-components';
+import { useHistory, useParams } from 'react-router';
 import Title from '../Title';
 import CloseButton from '../CloseButton';
 import useAppSelector from '../../Hooks/useAppSelector';
@@ -78,19 +79,25 @@ const MovieDescription = styled.p`
     flex: 1;
 `;
 
+interface RouteParams {
+  movieId?: string,
+}
+
 const MovieDetailsViewer:FunctionComponent = () => {
-  const { movieId, movie } = useAppSelector((state) => state.movies);
-  const { getMovie, setMovieIdAction } = useActions();
+  const { movieId } = useParams<RouteParams>();
+  const history = useHistory();
+  const { movie } = useAppSelector((state) => state.movies);
+  const { getMovie } = useActions();
   const [isLoaded, setLoaded] = useState(false);
 
   useEffect(() => {
     setLoaded(false);
-    getMovie(movieId);
+    getMovie(Number(movieId));
     setLoaded(true);
   }, [movieId]);
 
   const onCloseButtonClick = useCallback(() => {
-    setMovieIdAction(0);
+    history.push('/');
   }, []);
 
   return (

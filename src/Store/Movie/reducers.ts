@@ -22,7 +22,6 @@ export const emptyMovie: Movie = {
 
 const initialState: AppState = {
   movies: [],
-  movieId: -1,
   movie: emptyMovie,
   total: 0,
   sortBy: SORT_FIELDS.ReleaseDate,
@@ -63,12 +62,6 @@ const moviesReducers = (
       return {
         ...state,
         movies: state.movies.concat(action.payload),
-      };
-
-    case ACTIONS.SET_MOVIE_ID:
-      return {
-        ...state,
-        movieId: action.payload,
       };
 
     case ACTIONS.GET_MOVIE:

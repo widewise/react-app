@@ -23,17 +23,9 @@ const MovieSummary: FunctionComponent = () => {
   return (
     <>
       <CountLabel>
-        {
-        total > 0
-          ? (
-            <>
-              <CountNumberStrong>{total}</CountNumberStrong>
-              <CountSpace />
-              movies found
-            </>
-          )
-          : <>movies not found</>
-      }
+        <CountNumberStrong>{total}</CountNumberStrong>
+        <CountSpace />
+        movies found
       </CountLabel>
     </>
   );

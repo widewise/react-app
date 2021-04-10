@@ -5,7 +5,6 @@ import SORT_ORDER from '../Models/sortOrder';
 
 export type AppState = {
     movies?: Movie[],
-    movieId: number,
     movie: Movie,
     total: number,
     sortBy: SORT_FIELDS,

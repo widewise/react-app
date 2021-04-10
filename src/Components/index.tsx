@@ -4,12 +4,22 @@ import Main from './Main';
 import Footer from './Footer';
 import './styles.css';
 
-const App: FunctionComponent = () => (
+interface AppProps {
+  search?: string,
+}
+
+const appDefaultProps: AppProps = {
+  search: '',
+};
+
+const App: FunctionComponent<AppProps> = ({ search }: AppProps) => (
   <>
-    <Header />
-    <Main />
+    <Header search={search} />
+    <Main search={search} />
     <Footer />
   </>
 );
+
+App.defaultProps = appDefaultProps;
 
 export default App;

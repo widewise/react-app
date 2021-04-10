@@ -23,11 +23,6 @@ export type SetSortingAction = {
     payload: SORT_FIELDS,
   }
 
-export type SetMovieIdAction = {
-    type: ACTIONS.SET_MOVIE_ID,
-    payload: number
-  }
-
 export type DeleteMovieAction = {
     type: ACTIONS.DELETE_MOVIE,
     payload: number
@@ -44,5 +39,4 @@ GetMoviesAction
 | SetGenreFilterAction
 | SetSortingAction
 | MovieAction
-| SetMovieIdAction
 | DeleteMovieAction;

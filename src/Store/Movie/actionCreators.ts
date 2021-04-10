@@ -9,7 +9,6 @@ import {
   SetGenreFilterAction,
   SetSortingAction,
   SetTotalAction,
-  SetMovieIdAction,
 } from './types';
 import SORT_FIELDS from '../../Models/sortFields';
 import SORT_ORDER from '../../Models/sortOrder';
@@ -35,11 +34,6 @@ export const setGenreFilterAction = (filter: GENRE_FILTER): SetGenreFilterAction
 export const setSortingAction = (sortBy: SORT_FIELDS): SetSortingAction => ({
   type: ACTIONS.SET_SORTING,
   payload: sortBy,
-});
-
-export const setMovieIdAction = (movieId: number) : SetMovieIdAction => ({
-  type: ACTIONS.SET_MOVIE_ID,
-  payload: movieId,
 });
 
 export const getMovieAction = (movie: Movie) : MovieAction => ({
@@ -108,12 +102,13 @@ export const getMovies = (
   sortBy: SORT_FIELDS,
   sortOrder: SORT_ORDER,
   filter: GENRE_FILTER,
+  search: string,
 // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
 ) => async (dispatch: Dispatch<GetMoviesAction> & Dispatch<SetTotalAction>) => {
   const movies: Movie[] = [];
   const response = await axios.get(`${baseUrl}`, {
     params: {
-      sortBy, sortOrder, filter, limit: 9,
+      sortBy, sortOrder, filter, limit: 9, search, searchBy: 'title',
     },
   });
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
