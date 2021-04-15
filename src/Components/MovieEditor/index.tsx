@@ -38,6 +38,10 @@ const MovieEnterButton = styled(EnterButton)`
     margin-left: 20px;
 `;
 
+export const NewMovieTitle = 'NEW MOVIE';
+export const EditMovieTitle = 'EDIT MOVIE';
+
+
 interface Props {
   movie?: Movie,
   onCloseRequest?: () => void,
@@ -85,7 +89,7 @@ const MovieEditor: FunctionComponent<Props> = ({ movie, onCloseRequest }: Props)
     >
       {(props: FormikProps<Movie>) => (
         <Form>
-          <EditorTitle>{props.values.id <= 0 ? 'NEW MOVIE' : 'EDIT MOVIE'}</EditorTitle>
+          <EditorTitle>{props.values.id <= 0 ? NewMovieTitle : EditMovieTitle}</EditorTitle>
           <FieldEditor label="TITLE" type="text" name="title" placeholder="Title here" />
           <FieldEditor label="RELEASE DATE" type="date" name="releaseDate" placeholder="Select Date" />
           <FieldEditor label="MOVIE URL" type="url" name="posterPath" placeholder="Movie URL here" />

@@ -1,0 +1,16 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Title renders Title snapshot 1`] = `
+<DocumentFragment>
+  <h1
+    class="sc-bdfBwQ htrgWn"
+  >
+    <strong
+      class="sc-gsTCUz iznvlr"
+    >
+      netflix
+    </strong>
+    roulette
+  </h1>
+</DocumentFragment>
+`;

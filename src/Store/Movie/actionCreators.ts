@@ -15,6 +15,7 @@ import SORT_ORDER from '../../Models/sortOrder';
 import GENRE_FILTER from '../../Models/genreFilter';
 
 const baseUrl = 'http://localhost:4000/movies';
+const emptyTagline = 'Some tagline';
 
 export const getMoviesAction = (movies: Movie[]): GetMoviesAction => ({
   type: ACTIONS.GET_MOVIES,
@@ -79,7 +80,7 @@ function generateRequestObjectFromMovie(movie: Movie, isCopyId: boolean) {
     title: movie.title,
     tagline: movie.tagline,
     vote_average: movie.voteAverage,
-    vote_count: movie.voteAverage,
+    vote_count: movie.voteCount,
     release_date: movie.releaseDate,
     poster_path: movie.posterPath,
     overview: movie.overview,
@@ -128,7 +129,7 @@ export const getMovie = (movieId: number) => async (dispatch: Dispatch<MovieActi
 export const addOrUpdateMovie = (movie: Movie) => async (dispatch: Dispatch<MovieAction>) => {
   if (movie.tagline.length === 0) {
     // eslint-disable-next-line no-param-reassign
-    movie.tagline = 'Some tagline';
+    movie.tagline = emptyTagline;
   }
   if (movie.id <= 0) {
     const response = await axios.post(baseUrl, generateRequestObjectFromMovie(movie, false));

@@ -1,0 +1,8 @@
+{
+    "testRegex": "((\\.|/*.)(test))\\.(ts|tsx)?$",
+    "collectCoverage": true,
+    "coverageReporters": ["text","html"],
+    "setupFilesAfterEnv": [
+        "<rootDir>/src/setuptests.ts"
+    ]
+}

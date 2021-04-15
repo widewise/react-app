@@ -11,6 +11,7 @@ export const emptyMovie: Movie = {
   title: '',
   tagline: '',
   releaseDate: new Date(),
+  posterPath: '',
   overview: '',
   budget: 0,
   revenue: 0,
@@ -20,7 +21,7 @@ export const emptyMovie: Movie = {
   genres: [],
 } as Movie;
 
-const initialState: AppState = {
+export const initialState: AppState = {
   movies: [],
   movie: emptyMovie,
   total: 0,
