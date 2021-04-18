@@ -22,7 +22,9 @@ export const emptyMovie: Movie = {
 } as Movie;
 
 export const initialState: AppState = {
+  moviesLoading: false,
   movies: [],
+  movieLoading: false,
   movie: emptyMovie,
   total: 0,
   sortBy: SORT_FIELDS.ReleaseDate,
@@ -35,10 +37,18 @@ const moviesReducers = (
   action: MovieActions,
 ): AppState => {
   switch (action.type) {
+    case ACTIONS.GETTING_MOVIES:
+      return {
+        ...state,
+        movies: [],
+        moviesLoading: true,
+      };
+
     case ACTIONS.GET_MOVIES:
       return {
         ...state,
         movies: action.payload,
+        moviesLoading: false,
       };
 
     case ACTIONS.SET_TOTAL:
@@ -65,10 +75,18 @@ const moviesReducers = (
         movies: state.movies.concat(action.payload),
       };
 
+    case ACTIONS.GETTING_MOVIE:
+      return {
+        ...state,
+        movie: emptyMovie,
+        movieLoading: true,
+      };
+
     case ACTIONS.GET_MOVIE:
       return {
         ...state,
         movie: action.payload,
+        movieLoading: false,
       };
 
     case ACTIONS.EDIT_MOVIE:

@@ -1,11 +1,10 @@
 import React, { FunctionComponent } from 'react';
 import styled from 'styled-components';
-import { Route, Switch } from 'react-router-dom';
+import loadable from '@loadable/component';
 import Title from '../Title';
 import MovieAdd from './MovieAdd';
 import MovieSearch from './MovieSearch';
 import { Container } from '../Container';
-import MovieDetailsViewer from '../MovieDetailsViewer';
 
 const HeaderPanel = styled.header`
     background-color: #424242;
@@ -24,24 +23,36 @@ const HeaderMovieSearch = styled(MovieSearch)`
 `;
 
 interface HeaderProps {
-  search: string,
+  movieId?: number,
+  search?: string,
 }
 
-const Header: FunctionComponent<HeaderProps> = ({ search }: HeaderProps) => (
-  <HeaderPanel>
-    <Container>
-      <Switch>
-        <Route path="/film/:movieId" component={MovieDetailsViewer} />
-        <Route path="/">
-          <TitleControl>
-            <Title />
-            <MovieAdd />
-          </TitleControl>
-          <HeaderMovieSearch search={search} />
-        </Route>
-      </Switch>
-    </Container>
-  </HeaderPanel>
-);
+const defaultHeaderProps: HeaderProps = {
+  movieId: 0,
+  search: '',
+};
+
+const Header: FunctionComponent<HeaderProps> = ({ search, movieId }: HeaderProps) => {
+  const MovieDetailsViewer = loadable(() => import('../MovieDetailsViewer'), { ssr: true });
+  return (
+    <HeaderPanel>
+      <Container>
+        {movieId > 0
+          ? (<MovieDetailsViewer />)
+          : (
+            <>
+              <TitleControl>
+                <Title />
+                <MovieAdd />
+              </TitleControl>
+              <HeaderMovieSearch search={search} />
+            </>
+          )}
+      </Container>
+    </HeaderPanel>
+  );
+};
+
+Header.defaultProps = defaultHeaderProps;
 
 export default Header;

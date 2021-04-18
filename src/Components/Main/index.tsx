@@ -1,5 +1,5 @@
 /* eslint-disable no-nested-ternary */
-import React, { FunctionComponent, useEffect, useState } from 'react';
+import React, { FunctionComponent, useEffect } from 'react';
 import styled from 'styled-components';
 import { Container } from '../Container';
 import MovieListHeader from './MovieListHeader';
@@ -16,27 +16,28 @@ const MainPanel = styled.main`
 `;
 
 interface MainProps {
-  search: string,
+  search?: string,
 }
+
+const defaultMainProps: MainProps = {
+  search: '',
+};
 
 const Main: FunctionComponent<MainProps> = ({ search }: MainProps) => {
   const {
-    movies, sortBy, sortOrder, genreFilter,
+    moviesLoading, movies, sortBy, sortOrder, genreFilter,
   } = useAppSelector((state) => state.movies);
   const { getMovies } = useActions();
-  const [isLoaded, setLoaded] = useState(false);
 
   useEffect(() => {
-    setLoaded(false);
     getMovies(sortBy, sortOrder, genreFilter, search);
-    setLoaded(true);
   }, [sortBy, genreFilter, search]);
 
   return (
     <MainPanel>
       <Container>
         <MovieListHeader />
-        {!isLoaded
+        {moviesLoading
           ? <h1>Data is Loading ...</h1>
           : (movies.length > 0
             ? (
@@ -51,5 +52,7 @@ const Main: FunctionComponent<MainProps> = ({ search }: MainProps) => {
     </MainPanel>
   );
 };
+
+Main.defaultProps = defaultMainProps;
 
 export default Main;

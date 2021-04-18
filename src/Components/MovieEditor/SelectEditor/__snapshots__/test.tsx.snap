@@ -3,22 +3,22 @@
 exports[`SelectEditor render simple selector snapshot 1`] = `
 <DocumentFragment>
   <div
-    class="sc-bdfBwQ cBzpbD"
+    class="SelectEditor__EditorPanel-dFbyNq VCULj"
   >
     <div
-      class="sc-gsTCUz kRxAeX"
+      class="SelectEditor__EditorFirstRow-hVBINo gmYftf"
     >
       <label
-        class="sc-dlfnbm dJHdXK"
+        class="SelectEditor__EditorLabel-gRKGS fNgCd"
       >
         select editor label
       </label>
       <label
-        class="sc-hKgILt dQGgqf"
+        class="SelectEditor__ValidationMessage-iPaIEZ khKRiD"
       />
     </div>
     <div
-      class="sc-eCssSg goSdMt css-2b097c-container"
+      class="SelectEditor__EditorSelect-dmusEk gysuFS css-2b097c-container"
     >
       <span
         aria-atomic="false"

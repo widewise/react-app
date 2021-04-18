@@ -1,5 +1,5 @@
 import React, {
-  FunctionComponent, useCallback, useEffect, useState,
+  FunctionComponent, useCallback, useEffect,
 } from 'react';
 import styled from 'styled-components';
 import { useHistory, useParams } from 'react-router';
@@ -86,14 +86,11 @@ interface RouteParams {
 const MovieDetailsViewer:FunctionComponent = () => {
   const { movieId } = useParams<RouteParams>();
   const history = useHistory();
-  const { movie } = useAppSelector((state) => state.movies);
+  const { movieLoading, movie } = useAppSelector((state) => state.movies);
   const { getMovie } = useActions();
-  const [isLoaded, setLoaded] = useState(false);
 
   useEffect(() => {
-    setLoaded(false);
     getMovie(Number(movieId));
-    setLoaded(true);
   }, [movieId]);
 
   const onCloseButtonClick = useCallback(() => {
@@ -106,7 +103,7 @@ const MovieDetailsViewer:FunctionComponent = () => {
         <Title />
         <CloseButton onClick={() => onCloseButtonClick()} sizeInPixels={32} />
       </TitleControl>
-      {!isLoaded
+      {movieLoading
         ? <h1>Data is loading ...</h1>
         : (
           <ViewerBodyPanel>

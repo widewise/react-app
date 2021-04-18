@@ -3,10 +3,10 @@
 exports[`Title renders Title snapshot 1`] = `
 <DocumentFragment>
   <h1
-    class="sc-bdfBwQ htrgWn"
+    class="Title__TitleString-iozHt jOucPY"
   >
     <strong
-      class="sc-gsTCUz iznvlr"
+      class="Title__NetflixTitleString-kEdzHV gzgyDA"
     >
       netflix
     </strong>

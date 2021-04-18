@@ -3,6 +3,10 @@ import Movie from '../../Models/movie';
 import GENRE_FILTER from '../../Models/genreFilter';
 import SORT_FIELDS from '../../Models/sortFields';
 
+export type GettingDataAction = {
+  type: ACTIONS.GETTING_MOVIES | ACTIONS.GETTING_MOVIE,
+}
+
 export type GetMoviesAction = {
     type: ACTIONS.GET_MOVIES,
     payload: Movie[],
@@ -34,7 +38,8 @@ export type MovieAction = {
   }
 
 export type MovieActions =
-GetMoviesAction
+GettingDataAction
+| GetMoviesAction
 | SetTotalAction
 | SetGenreFilterAction
 | SetSortingAction

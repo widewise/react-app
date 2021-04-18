@@ -1,39 +1,18 @@
+/* eslint-disable @typescript-eslint/no-var-requires */
 const path = require('path');
-const HtmlWebpackPlugin = require('html-webpack-plugin');
-const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 
 const isEnvDevelopment = process.env.NODE_ENV === 'development';
-const buildFolder = isEnvDevelopment ? 'dev' : 'prod';
+const buildFolder = isEnvDevelopment ? '../dev' : '../prod';
 
 module.exports = {
   mode: process.env.NODE_ENV,
-  entry: ['./src/index.tsx'],
   output: {
-    filename: '[name].bundle.js',
-    chunkFilename: '[name].bundle.js',
+    filename: '[name].js',
     path: path.resolve(__dirname, buildFolder),
+    publicPath: '/',
   },
   watch: isEnvDevelopment,
   devtool: isEnvDevelopment ? 'source-map' : false,
-  devServer: {
-    contentBase: path.join(__dirname, buildFolder),
-    compress: true,
-    port: 9000,
-    open: true,
-  },
-  optimization: {
-    splitChunks: {
-      chunks: 'all',
-    },
-  },
-  plugins: [
-    new CleanWebpackPlugin({
-      cleanAfterEveryBuildPatterns: [buildFolder],
-    }),
-    new HtmlWebpackPlugin({
-      template: './src/index.html',
-    }),
-  ],
   module: {
     rules: [
       {
@@ -43,7 +22,7 @@ module.exports = {
         use: 'eslint-loader',
       },
       {
-        test: /\.jsx$/,
+        test: /\.(js|jsx)$/,
         exclude: /node_modules/,
         use: {
           loader: 'babel-loader',
@@ -57,10 +36,6 @@ module.exports = {
             loader: 'ts-loader',
           },
         ],
-      },
-      {
-        test: /\.css$/,
-        use: ['style-loader', 'css-loader'],
       },
     ],
   },

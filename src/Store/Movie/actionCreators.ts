@@ -9,6 +9,7 @@ import {
   SetGenreFilterAction,
   SetSortingAction,
   SetTotalAction,
+  GettingDataAction,
 } from './types';
 import SORT_FIELDS from '../../Models/sortFields';
 import SORT_ORDER from '../../Models/sortOrder';
@@ -16,6 +17,10 @@ import GENRE_FILTER from '../../Models/genreFilter';
 
 const baseUrl = 'http://localhost:4000/movies';
 const emptyTagline = 'Some tagline';
+
+export const gettingMoviesAction = (): GettingDataAction => ({
+  type: ACTIONS.GETTING_MOVIES,
+});
 
 export const getMoviesAction = (movies: Movie[]): GetMoviesAction => ({
   type: ACTIONS.GET_MOVIES,
@@ -35,6 +40,10 @@ export const setGenreFilterAction = (filter: GENRE_FILTER): SetGenreFilterAction
 export const setSortingAction = (sortBy: SORT_FIELDS): SetSortingAction => ({
   type: ACTIONS.SET_SORTING,
   payload: sortBy,
+});
+
+export const gettingMovieAction = (): GettingDataAction => ({
+  type: ACTIONS.GETTING_MOVIE,
 });
 
 export const getMovieAction = (movie: Movie) : MovieAction => ({
@@ -105,7 +114,10 @@ export const getMovies = (
   filter: GENRE_FILTER,
   search: string,
 // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
-) => async (dispatch: Dispatch<GetMoviesAction> & Dispatch<SetTotalAction>) => {
+) => async (dispatch: Dispatch<GettingDataAction> &
+  Dispatch<GetMoviesAction> &
+  Dispatch<SetTotalAction>) => {
+  dispatch(gettingMoviesAction());
   const movies: Movie[] = [];
   const response = await axios.get(`${baseUrl}`, {
     params: {
@@ -119,7 +131,9 @@ export const getMovies = (
 };
 
 // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
-export const getMovie = (movieId: number) => async (dispatch: Dispatch<MovieAction>) => {
+export const getMovie = (movieId: number) => async (dispatch: Dispatch<MovieAction> &
+  Dispatch<GettingDataAction>) => {
+  dispatch(gettingMovieAction());
   const response = await axios.get(`${baseUrl}/${movieId}`);
   const movie = parseMovie(response.data);
   dispatch(getMovieAction(movie));
