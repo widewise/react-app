@@ -46,7 +46,7 @@ const CloseButtonModel = styled(CloseButton)`
     right: 10px;
 `;
 
-interface Props {
+export interface Props {
   onCloseRequest: () => void,
   children: ReactNode,
 }

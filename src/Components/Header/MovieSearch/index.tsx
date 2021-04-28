@@ -34,7 +34,7 @@ const SearchTearmField = styled.input`
     border-radius: 3px;
 `;
 
-interface Props {
+export interface Props {
   className?: string,
   search?: string,
 }

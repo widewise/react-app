@@ -34,7 +34,7 @@ const ButtonLine2 = styled.div`
     width: 1px;
 `;
 
-interface Props {
+export interface Props {
   // eslint-disable-next-line react/require-default-props
   className?: string,
   onClick: () => void,
