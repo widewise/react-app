@@ -37,12 +37,12 @@ interface Props {
 
 export const ContextMenu: FunctionComponent<Props> = ({ movie }: Props) => {
   const [showMenu, toggleShowMenu] = useToggle();
-
+  const menuButtonAriaLabel = `menu_button_${movie.id}`;
   return (
     <ContextMenuPanel>
       {showMenu
         ? <Menu onCloseRequest={() => toggleShowMenu()} movie={movie} />
-        : <MenuButton type="button" onClick={() => toggleShowMenu()} />}
+        : <MenuButton aria-label={menuButtonAriaLabel} type="button" onClick={() => toggleShowMenu()} />}
     </ContextMenuPanel>
   );
 };

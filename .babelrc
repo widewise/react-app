@@ -13,6 +13,6 @@
         "ssr": false
       }
     ],
-    "@loadable/babel-plugin",
+    "@loadable/babel-plugin"
   ]
 }

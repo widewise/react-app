@@ -36,6 +36,8 @@ const MoviePoster: FunctionComponent<Props> = ({ movie }: Props) => {
     >
       <ContextMenu movie={movie} />
       <MoviePosterImage
+        width="100%"
+        height="auto"
         src={movie.posterPath ?? ''}
         alt="Poster"
       />

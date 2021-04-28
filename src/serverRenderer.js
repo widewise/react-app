@@ -5,8 +5,6 @@
 /* eslint-disable no-console */
 const URL = require('url');
 const path = require('path');
-
-const buildPath = process.env.NODE_ENV === 'development' ? './dev' : './prod';
 const React = require('react');
 const { renderToString } = require('react-dom/server');
 const { ServerStyleSheet } = require('styled-components');
@@ -24,7 +22,10 @@ function renderHTML(html, styles, chunkExtractor, preloadedState = {}) {
         <!DOCTYPE html>
         <html lang="en">
           <head>
-            <meta charset=utf-8>
+            <meta charset="UTF-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            <meta name="description" content="Netflix">
+            <meta http-equiv="X-UA-Compatible" content="ie=edge">
             <title>Netflix</title>
             ${process.env.NODE_ENV === 'development' ? '' : '<link href="/main.css" rel="stylesheet" type="text/css">'}
             ${styles}
@@ -63,14 +64,15 @@ function renderApp(location, context, res, store) {
       return;
     }
 
-    const statsFile = path.resolve(`${buildPath}/loadable-stats.json`);
+    const statsFile = path.resolve('./dev/loadable-stats.json');
     const chunkExtractor = new ChunkExtractor({ statsFile });
     const htmlString = renderToString(sheet.collectStyles(root()));
     const styles = sheet.getStyleTags();
     const preloadedState = store.getState();
 
     if (location.includes('.css')) {
-      console.log(path.join(__dirname, location));
+      res.sendFile(path.join(__dirname, location));
+    } else if (location.includes('.txt')) {
       res.sendFile(path.join(__dirname, location));
     } else if (location.includes('.ico')) {
       res.end();

@@ -12,7 +12,7 @@ const MovieCardDetailsFirstRow = styled.div`
     margin-bottom: 10px;
 `;
 
-const TitleLabel = styled.h6`
+const TitleLabel = styled.p`
     font-size: 15px;
     margin: 0;
     flex: 1;

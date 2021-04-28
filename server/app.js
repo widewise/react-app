@@ -2,8 +2,11 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
 const express = require('express');
 const path = require('path');
+const compression = require('compression');
 
 const app = express();
+
+app.use(compression());
 
 if (process.env.NODE_ENV === 'development') {
   const webpack = require('webpack');

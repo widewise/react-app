@@ -1,9 +1,11 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
 const path = require('path');
+const RobotstxtPlugin = require('robotstxt-webpack-plugin');
 
 const isEnvDevelopment = process.env.NODE_ENV === 'development';
 const buildFolder = isEnvDevelopment ? '../dev' : '../prod';
 
+console.log(path.resolve(__dirname, buildFolder));
 module.exports = {
   mode: process.env.NODE_ENV,
   output: {
@@ -39,7 +41,12 @@ module.exports = {
       },
     ],
   },
+  plugins: [
+    new RobotstxtPlugin({
+      filePath: './robots.txt',
+    }),
+  ],
   resolve: {
-    extensions: ['.js', '.jsx', '.tsx', '.ts'],
+    extensions: ['.js', '.jsx', '.tsx', '.ts', '.json'],
   },
 };
