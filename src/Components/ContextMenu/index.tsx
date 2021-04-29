@@ -40,6 +40,7 @@ export const ContextMenu: FunctionComponent<Props> = ({ movie }: Props) => {
   const menuButtonAriaLabel = `menu_button_${movie.id}`;
   return (
     <ContextMenuPanel>
+      { /* // PATTERN: Conditional rendering */ }
       {showMenu
         ? <Menu onCloseRequest={() => toggleShowMenu()} movie={movie} />
         : <MenuButton aria-label={menuButtonAriaLabel} type="button" onClick={() => toggleShowMenu()} />}

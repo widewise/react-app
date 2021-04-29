@@ -37,6 +37,7 @@ const Header: FunctionComponent<HeaderProps> = ({ search, movieId }: HeaderProps
   return (
     <HeaderPanel>
       <Container>
+        { /* // PATTERN: Conditional rendering */ }
         {movieId > 0
           ? (<MovieDetailsViewer />)
           : (

@@ -41,7 +41,6 @@ const MovieEnterButton = styled(EnterButton)`
 export const NewMovieTitle = 'NEW MOVIE';
 export const EditMovieTitle = 'EDIT MOVIE';
 
-
 interface Props {
   movie?: Movie,
   onCloseRequest?: () => void,
@@ -52,6 +51,7 @@ const defaultProps: Props = {
   onCloseRequest: null,
 };
 
+// PATTERN: State hoisting
 const MovieEditor: FunctionComponent<Props> = ({ movie, onCloseRequest }: Props) => {
   const { addOrUpdateMovie } = useActions();
 

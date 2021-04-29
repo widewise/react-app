@@ -5,7 +5,6 @@ const RobotstxtPlugin = require('robotstxt-webpack-plugin');
 const isEnvDevelopment = process.env.NODE_ENV === 'development';
 const buildFolder = isEnvDevelopment ? '../dev' : '../prod';
 
-console.log(path.resolve(__dirname, buildFolder));
 module.exports = {
   mode: process.env.NODE_ENV,
   output: {

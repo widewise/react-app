@@ -37,6 +37,7 @@ interface Props {
   onCloseRequest: () => void
 }
 
+// PATTERN: State hoisting
 const MovieDelete: FunctionComponent<Props> = ({ movieId, onCloseRequest }: Props) => {
   const { deleteMovie } = useActions();
   function OnSubmit(event: React.FormEvent<HTMLFormElement>) {

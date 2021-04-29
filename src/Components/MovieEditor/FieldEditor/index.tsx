@@ -60,6 +60,7 @@ export const FieldEditor: FunctionComponent<Props> = (props: Props) => {
         <EditorLabel htmlFor={name}>{label}</EditorLabel>
         <ValidationMessage>{meta.error || ''}</ValidationMessage>
       </EditorFirstRow>
+      { /* // PATTERN: JSX spread attributes */ }
       <EditorField {...field} name={name} type={type} placeholder={placeholder} />
     </EditorPanel>
   );

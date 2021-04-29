@@ -50,7 +50,7 @@ export interface Props {
   onCloseRequest: () => void,
   children: ReactNode,
 }
-
+// PATTERN: State hoisting
 const Modal: FunctionComponent<Props> = ({ onCloseRequest, children }: Props) => {
   const handleKeyUp = useCallback((e: KeyboardEvent) => {
     if (e.key === '27') {

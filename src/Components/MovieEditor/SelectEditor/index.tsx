@@ -80,6 +80,7 @@ export const SelectEditor: FunctionComponent<Props> = (props: Props) => {
         <EditorLabel htmlFor={name}>{label}</EditorLabel>
         <ValidationMessage>{meta.error || ''}</ValidationMessage>
       </EditorFirstRow>
+      { /* // PATTERN: JSX spread attributes */ }
       <EditorSelect
         {...field}
         name={name}
